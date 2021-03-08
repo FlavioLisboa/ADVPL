@@ -1,0 +1,41 @@
+#Include 'totvs.ch'
+#Include 'protheus.ch'
+
+
+User Function zTSay()
+Local oDlg1 //Variável que receberá a chamada da classe TDialog
+Local cTituloJanela := "Utlitários do Protheus"
+Local oButton1, oButton2, oButton3, oButton4, oButton5, oButton6, oButton7, oButton8, oButton9, oButton10, oButton11 //Variável que armazenará a classe os botões
+Local oSay1, oSay2, oSay3    // Variável que armazenará as Say
+
+
+
+oDlg1 := TDialog():New(0,0,600,800, cTituloJanela,,,,,CLR_BLACK,CLR_WHITE,,,.T.)
+
+
+
+
+/*TButton():New( [ nRow ], [ nCol ], [ cCaption ], [ oWnd ], [ bAction ], [ nWidth ], [ nHeight ], [ uParam8 ], [ oFont ], [ uParam10 ], [ lPixel ], [ uParam12 ], [ uParam13 ], [ uParam14 ], [ bWhen ], [ uParam16 ], [ uParam17 ] )
+1º coordenada vertical
+2º coordenada horizontal
+3º Título do botão
+4º Elemento onde ele será fixado
+5º Ação executada (bloco de código) ao clicar no botão com o botão esquerdo do mouse
+*/
+oSay1     := TSay():New(05,30,{||'Faturamento'},oDlg1,,,,,,.T.,CLR_RED,CLR_WHITE,200,20)
+oButton1  := TButton():New(20, 20,"Clientes",                oDlg1,{||MATA030()}, 60,20,,,.F.,.T.,.F.,,.F.,,,.F.)
+oButton2  := TButton():New(60, 20,"Pedidos de venda",        oDlg1,{||MATA410()}, 60,20,,,.F.,.T.,.F.,,.F.,,,.F.)
+oButton3  := TButton():New(100, 20,"Prénota",                oDlg1,{||MATR730()}, 60,20,,,.F.,.T.,.F.,,.F.,,,.F.)
+oButton4  := TButton():New(140, 20,"NFe_SEFAZ",              oDlg1,{||SPEDNFE()}, 60,20,,,.F.,.T.,.F.,,.F.,,,.F.)
+oSay2     := TSay():New(05,110,{||'Entradas'},oDlg1,,,,,,.T.,CLR_BLUE,CLR_WHITE,200,20)
+oButton5  := TButton():New(20, 100,"Fornecedores",           oDlg1,{||MATA020()}, 60,20,,,.F.,.T.,.F.,,.F.,,,.F.)
+oButton6  := TButton():New(60, 100,"Pedido de Compra",       oDlg1,{||MATA121()}, 60,20,,,.F.,.T.,.F.,,.F.,,,.F.)
+oButton7  := TButton():New(100, 100,"Documento de Entrada",  oDlg1,{||MATA103()}, 60,20,,,.F.,.T.,.F.,,.F.,,,.F.)
+oSay3     := TSay():New(05,190,{||'Financeiro'},oDlg1,,,,,,.T.,CLR_GRAY,CLR_WHITE,200,20)
+oButton8  := TButton():New(20, 180,"Funções Contas a Rec",   oDlg1,{||FINA740()}, 60,20,,,.F.,.T.,.F.,,.F.,,,.F.)
+oButton9  := TButton():New(60, 180,"Funções Contas a Pag",   oDlg1,{||FINA750()}, 60,20,,,.F.,.T.,.F.,,.F.,,,.F.)
+oButton10 := TButton():New(100, 180,"Movimentos Bancários",  oDlg1,{||FINA100()}, 60,20,,,.F.,.T.,.F.,,.F.,,,.F.)
+oButton11 := TButton():New(260, 300,"Fechar Janela",       oDlg1,{||oDlg1:End()}, 60,20,,,.F.,.T.,.F.,,.F.,,,.F.)
+oDlg1:Activate(,,,)
+    
+Return 

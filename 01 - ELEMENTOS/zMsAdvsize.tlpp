@@ -1,0 +1,71 @@
+#Include 'totvs.ch'
+#Include 'protheus.ch'
+
+ 
+/*/{Protheus.doc} zMsAdvsize
+Fonte criado com o intuito de aprender como deixar o tamanho da tela dinâmico.
+@type function
+@version 1.5  
+@author Flavio
+@since 28/02/2021
+@return return_type, return_description
+@see https://tdn.totvs.com/display/tec/TFont%3ANew  
+@see https://tdn.totvs.com/display/tec/Construtor+TDialog%3ANew
+@see https://tdn.totvs.com/display/tec/Construtor+TButton%3ACreate
+@see https://tdn.totvs.com/display/tec/TSay
+@see https://tdn.totvs.com/display/tec/TDialg    
+@see https://efacildemais.blogspot.com/2011/06/msadvsize-dimensionamento-de-janelas-no.html
+/*/
+
+User Function zMsAdvsize()
+Local oDlg1 //Variável que receberá a chamada da classe TDialog
+Local cTituloJanela := "Utlitários do Protheus"
+Local oButton1, oButton2, oButton3, oButton4, oButton5, oButton6, oButton7, oButton8, oButton9, oButton10, oButton11 //Variável que armazenará a classe os botões
+Local oSay1, oSay2, oSay3    // Variável que armazenará as Say
+Local oFont1, oFont2
+Local aSize := MsAdvsize()
+Local oSaySize 
+Local cSize7, cSize1, cSize6, cSize5
+
+cSize7 := cValToChar(aSize[7])
+cSize1 := cValToChar(aSize[1])
+cSize6 := cValToChar(aSize[6])
+cSize5 := cValToChar(aSize[5])
+
+
+oDlg1 := TDialog():New(aSize[7],aSize[1],aSize[6],aSize[5], cTituloJanela,,,,,CLR_BLACK,CLR_WHITE,,,.T.)
+
+
+
+
+/*TButton():New( [ nRow ], [ nCol ], [ cCaption ], [ oWnd ], [ bAction ], [ nWidth ], [ nHeight ], [ uParam8 ], [ oFont ], [ uParam10 ], [ lPixel ], [ uParam12 ], [ uParam13 ], [ uParam14 ], [ bWhen ], [ uParam16 ], [ uParam17 ] )
+1º coordenada vertical
+2º coordenada horizontal
+3º Título do botão
+4º Elemento onde ele será fixado
+5º Ação executada (bloco de código) ao clicar no botão com o botão esquerdo do mouse
+*/
+oFont1    :=TFont():New('Comic Sans MS',,20,,.T.,,,,,.T.,.T.)
+oFont2    :=TFont():New('Arial Black',,12,,.F.,,,,,.F.,.F.)
+
+oSay1     := TSay():New(05,30,{||'Faturamento'},oDlg1,,oFont1,,,,.T.,CLR_RED,CLR_WHITE,200,20)
+oButton1  := TButton():New(20, 20,"Clientes",                oDlg1,{||MATA030()}, 80,20,,oFont2,.F.,.T.,.F.,,.F.,,,.F.)
+oButton2  := TButton():New(80, 20,"Pedidos de venda",        oDlg1,{||MATA410()}, 80,20,,oFont2,.F.,.T.,.F.,,.F.,,,.F.)
+oButton3  := TButton():New(140, 20,"Pré-nota",                oDlg1,{||MATR730()}, 80,20,,oFont2,.F.,.T.,.F.,,.F.,,,.F.)
+oButton4  := TButton():New(200, 20,"NFe_SEFAZ",              oDlg1,{||SPEDNFE()}, 80,20,,oFont2,.F.,.T.,.F.,,.F.,,,.F.)
+oSay2     := TSay():New(05,130,{||'Entradas'},oDlg1,,oFont1,,,,.T.,CLR_BLUE,CLR_WHITE,200,20)
+oButton5  := TButton():New(20, 120,"Fornecedores",           oDlg1,{||MATA020()}, 80,20,,oFont2,.F.,.T.,.F.,,.F.,,,.F.)
+oButton6  := TButton():New(80, 120,"Pedido de Compra",       oDlg1,{||MATA121()}, 80,20,,oFont2,.F.,.T.,.F.,,.F.,,,.F.)
+oButton7  := TButton():New(140, 120,"Documento de Entrada",  oDlg1,{||MATA103()}, 80,20,,oFont2,.F.,.T.,.F.,,.F.,,,.F.)
+oSay3     := TSay():New(05,230,{||'Financeiro'},oDlg1,,oFont1,,,,.T.,CLR_GRAY,CLR_WHITE,200,20)
+oButton8  := TButton():New(20, 220,"Funções Contas a Rec",   oDlg1,{||FINA740()}, 80,20,,oFont2,.F.,.T.,.F.,,.F.,,,.F.)
+oButton9  := TButton():New(80, 220,"Funções Contas a Pag",   oDlg1,{||FINA750()}, 80,20,,oFont2,.F.,.T.,.F.,,.F.,,,.F.)
+oButton10 := TButton():New(140, 220,"Movimentos Bancários",  oDlg1,{||FINA100()}, 80,20,,oFont2,.F.,.T.,.F.,,.F.,,,.F.)
+oButton11 := TButton():New(270, 300,"Fechar Janela",       oDlg1,{||oDlg1:End()}, 80,20,,oFont2,.F.,.T.,.F.,,.F.,,,.F.)
+oDlg1:Activate(,,,)
+    
+oSaySize  := TSay():New(120,20,{||cSize7+" "+cSize1+" "+cSize6+" "+cSize5},oDlg1,,oFont1,,,,.T.,CLR_RED,CLR_WHITE,400,20)
+
+
+
+Return 
