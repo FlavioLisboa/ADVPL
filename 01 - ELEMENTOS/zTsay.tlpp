@@ -36,6 +36,7 @@ oButton8  := TButton():New(20, 180,"Funções Contas a Rec",   oDlg1,{||FINA740()}
 oButton9  := TButton():New(60, 180,"Funções Contas a Pag",   oDlg1,{||FINA750()}, 60,20,,,.F.,.T.,.F.,,.F.,,,.F.)
 oButton10 := TButton():New(100, 180,"Movimentos Bancários",  oDlg1,{||FINA100()}, 60,20,,,.F.,.T.,.F.,,.F.,,,.F.)
 oButton11 := TButton():New(260, 300,"Fechar Janela",       oDlg1,{||oDlg1:End()}, 60,20,,,.F.,.T.,.F.,,.F.,,,.F.)
+
 oDlg1:Activate(,,,)
     
 Return 
