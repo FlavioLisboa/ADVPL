@@ -62,3 +62,16 @@ MsUnlock()
 Msginfo("O cliente com código "+cCod+" e loja "+cLoja+" está sendo bloqueado")
     
 Return 
+
+
+
+
+
+
+/*/
+
+Desafio, capturar o nome do cliente e incluir na mensagem de bloqueio.
+
+como a funcção de desbloquer tb
+
+/*/
