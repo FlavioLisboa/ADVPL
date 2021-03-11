@@ -20,18 +20,25 @@
 User Function zTget()
     
 Local oDlg1
+Local cTituloJanela := "Cadastro Usando TGet"
 Local aSize := MsAdvsize()
-Local oSay1
-Local oButton1
+Local oSay1, oSay2
+Local oButton1, oButton2
 
 //Começamos aqui à criar o TGet
-Local cGet1 // Variável que irá capturar o que for digitado.Para cada Tget, se faz necessário uma variável caracter para armazenar o que foi digitado.
-Local oGet1 // Variável responsável por receber a Classe/contrutor TGet
+Local cGet1 := Space(LEN(SA1->A1_NOME))
+Local cGet2 := Space(LEN(SA1->A1_END))
+//Local cGet1 := Space(15)// Variável que irá capturar o que for digitado.Para cada Tget, se faz necessário uma variável caracter para armazenar o que foi digitado.
+Local oGet1, oGet2 // Variável responsável por receber a Classe/contrutor TGet
 
-oDlg1 := TDialog():New(aSize[7],aSize[1],aSize[6],aSize[5], cTituloJanela,,,,,CLR_BLACK,CLR_WHITE,,,.T.)
-oSay1 := TSay():New(10,10,{||'Digite seu nome'},oDlg1,,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
-oGet1 := TGet():New(30,10,{|u| IIF(Pcount()>0,cGet1:=u,cGet1)},oDlg1,60,10,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet1,,,,)
+oDlg1     := TDialog():New(aSize[7],aSize[1],aSize[6],aSize[5], cTituloJanela,,,,,CLR_BLACK,CLR_WHITE,,,.T.)
+oSay1     := TSay():New(15,10,{||'Digite seu Nome'},oDlg1,,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+oSay2     := TSay():New(15,200,{||'Digite seu Endereço'},oDlg1,,,,,,.T.,CLR_RED,CLR_WHITE,300,20)
+oGet1     := TGet():New(25,10,{|u| IIF(Pcount()>0,cGet1:=u,cGet1)},oDlg1,60,10,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet1,,,,)
+oGet2     := TGet():New(25,200,{|u| IIF(Pcount()>0,cGet2:=u,cGet2)},oDlg1,60,10,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet2,,,,)
+oButton1  := TButton():New(25, 10,"Mostrar Nome", oDlg1,{||MsgInfo(cGet1,"Conteúdo Digitado")}, 60,15,,,.F.,.T.,.F.,,.F.,,,.F.)
+oButton2  := TButton():New(25, 200,"Mostrar Nome", oDlg1,{||MsgInfo(cGet2,"Conteúdo Digitado2")}, 60,15,,,.F.,.T.,.F.,,.F.,,,.F.)
 
-oButton1  := TButton():New(50, 10,"Mostrar Nome", oDlg1,{||MsgInfo(cGet1,"Conteúdo Digitado")}, 60,15,,,,.F.,.T.,.F.,,.F.,,,.F.)
+oDlg1:Activate(,,,.F.)
 
 Return 
