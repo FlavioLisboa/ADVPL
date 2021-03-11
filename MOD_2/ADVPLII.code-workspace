@@ -6,6 +6,7 @@
 	],
 	"settings": {
 		"totvsLanguageServer.welcomePage": false,
-		"totvsLanguageServer.askCompileResult": true
+		"totvsLanguageServer.askCompileResult": true,
+		"git.ignoreLimitWarning": true
 	}
 }
