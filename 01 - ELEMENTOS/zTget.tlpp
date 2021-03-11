@@ -1,0 +1,37 @@
+#include 'TOTVS.CH'
+#include 'Protheus.ch'
+
+//DEFINE
+
+/*/{Protheus.doc} User Function zTget()
+    (Programa para capturar o que for digitado pelo usuário)
+    @type  User Function
+    @author Flávio Lisboa
+    @since 10/03/2021
+    @version 1.0
+    @param param_name, param_type, param_descr
+    @return return_var, return_type, return_description
+    @example
+    (examples)
+    @see https://tdn.totvs.com/display/tec/Construtor+TGet%3ANew
+    @see https://tdn.totvs.com/pages/viewpage.action?pageId=24347085
+    @see https://tdn.totvs.com/pages/viewpage.action?pageId=22479526
+    /*/
+User Function zTget()
+    
+Local oDlg1
+Local aSize := MsAdvsize()
+Local oSay1
+Local oButton1
+
+//Começamos aqui à criar o TGet
+Local cGet1 // Variável que irá capturar o que for digitado.Para cada Tget, se faz necessário uma variável caracter para armazenar o que foi digitado.
+Local oGet1 // Variável responsável por receber a Classe/contrutor TGet
+
+oDlg1 := TDialog():New(aSize[7],aSize[1],aSize[6],aSize[5], cTituloJanela,,,,,CLR_BLACK,CLR_WHITE,,,.T.)
+oSay1 := TSay():New(10,10,{||'Digite seu nome'},oDlg1,,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+oGet1 := TGet():New(30,10,{|u| IIF(Pcount()>0,cGet1:=u,cGet1)},oDlg1,60,10,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet1,,,,)
+
+oButton1  := TButton():New(50, 10,"Mostrar Nome", oDlg1,{||MsgInfo(cGet1,"Conteúdo Digitado")}, 60,15,,,,.F.,.T.,.F.,,.F.,,,.F.)
+
+Return 
