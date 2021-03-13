@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include 'totvs.ch'
 #include 'Protheus.ch'
 
@@ -64,3 +65,83 @@ Return
 
 
 
+=======
+#include 'TOTVS.CH'
+#include 'Protheus.ch'
+
+//DEFINE
+
+/*/{Protheus.doc} User Function zTget2()
+    (Programa bloquear Cliente)
+    @type  User Function
+    @author Flávio Lisboa
+    @since 10/03/2021
+    @version 1.0
+    @param param_name, param_type, param_descr
+    @return return_var, return_type, return_description
+    @example
+    (examples)
+    @see https://tdn.totvs.com/display/tec/Construtor+TGet%3ANew
+    @see https://tdn.totvs.com/pages/viewpage.action?pageId=24347085
+    @see https://tdn.totvs.com/pages/viewpage.action?pageId=22479526
+    @see https://tdn.totvs.com/display/tec/TGet%3AcF3
+    @see https://tdn.totvs.com/pages/viewpage.action?pageId=23889301
+    @see https://tdn.totvs.com/pages/viewpage.action?pageId=24347041
+ /*/
+User Function zTget2()
+    
+Local oDlg1
+Local cTituloJanela := "Bloqueador de Clientes"
+Local oSay1, oSay2
+Local oButton1, oButton2
+
+//Começamos aqui à criar o TGet
+Local cGet1 := Space(LEN(SA1->A1_COD))
+Local cGet2 := Space(LEN(SA1->A1_LOJA))
+//Local cGet1 := Space(15)// Variável que irá capturar o que for digitado.Para cada Tget, se faz necessário uma variável caracter para armazenar o que foi digitado.
+Local oGet1, oGet2 // Variável responsável por receber a Classe/contrutor TGet
+
+oFont1    :=TFont():New('Arial Black',,12,,.F.,,,,,.F.,.F.)
+
+oDlg1     := TDialog():New(0,0,200,500, cTituloJanela,,,,,CLR_BLACK,CLR_WHITE,,,.T.)
+oSay1     := TSay():New(10,15,{||'Cliente'},oDlg1,,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+oSay2     := TSay():New(10,65,{||'Loja'},oDlg1,,,,,,.T.,CLR_RED,CLR_WHITE,300,20)
+
+oGet1     := TGet():New(25,10,{|u| IIF(Pcount()>0,cGet1:=u,cGet1)},oDlg1,40,10,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet1,,,,)
+oGet1:cF3 := "SA1"    
+oGet2     := TGet():New(25,60,{|u| IIF(Pcount()>0,cGet2:=u,cGet2)},oDlg1,30,10,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet2,,,,)
+
+oButton1  := TButton():New(60, 10,"Bloquear", oDlg1,{||fBloq(cGet1,cGet2)}, 60,15,,,.F.,.T.,.F.,,.F.,,,.F.)
+oButton2  := TButton():New(100, 200,"Fechar Janela", oDlg1,{||oDlg1:End()}, 80,20,,oFont1,.F.,.T.,.F.,,.F.,,,.F.)
+oDlg1:Activate(,,,.T.)
+
+Return 
+
+Static Function fBloq(cCod,cLoja) //Vai receber o conteúdo das variáveis cGet1 e cGet2
+
+DbSelectArea("SA1")
+SA1->(DbSeek(xFilial("SA1")+cCod+cLoja)) // Vai procurar o cliente e a loja que estão dentro dos Gets
+
+RecLock("SA1",.F.) //usa-se true (.T.), para inclusão e false (.F.) para EDIÇÂO/ALTERAÇÂO
+    SA1->A1_MSBLQL := '1'
+
+MsUnlock()
+
+Msginfo("O cliente com código "+cCod+" e loja "+cLoja+" está sendo bloqueado")
+    
+    
+Return 
+
+
+
+
+
+
+/*/
+
+Desafio, capturar o nome do cliente e incluir na mensagem de bloqueio.
+
+como a funcção de desbloquer tb
+
+/*/
+>>>>>>> 7b1f75ec53880e73fc1ca293755c37dece6c65a4
