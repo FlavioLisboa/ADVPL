@@ -1,7 +1,7 @@
 #Include 'totvs.ch'
 #Include 'protheus.ch'
 
-DEFINE 
+//DEFINE 
  
 /*/{Protheus.doc} zTFont
 Fonte criado com o intuito de aprender os componentes visuais do ADVPL

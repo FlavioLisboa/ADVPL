@@ -1,11 +1,11 @@
-#include 'totvs.ch'
+#include 'TOTVS.CH'
 #include 'Protheus.ch'
 
 //DEFINE
 
 /*/{Protheus.doc} User Function zTget2()
     (Programa bloquear Cliente)
-    @type Function
+     @type function
     @author Flávio Lisboa
     @since 10/03/2021
     @version 1.0
@@ -16,12 +16,12 @@
     @see https://tdn.totvs.com/pages/viewpage.action?pageId=23889301
     @see https://tdn.totvs.com/pages/viewpage.action?pageId=24347041
  /*/
-User Function zTget2()
+User Function zTget3()
     
 Local oDlg1
 Local cTituloJanela := "Bloqueador de Clientes"
 Local oSay1, oSay2
-Local oButton1, oButton2
+Local oButton1, oButton2, oButton3
 
 //Começamos aqui à criar o TGet
 Local cGet1 := Space(LEN(SA1->A1_COD))
@@ -32,15 +32,16 @@ Local oGet1, oGet2 // Variável responsável por receber a Classe/contrutor TGet
 oFont1    :=TFont():New('Arial Black',,12,,.F.,,,,,.F.,.F.)
 
 oDlg1     := TDialog():New(0,0,200,500, cTituloJanela,,,,,CLR_BLACK,CLR_WHITE,,,.T.)
-oSay1     := TSay():New(10,15,{||'Cliente'},oDlg1,,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
-oSay2     := TSay():New(10,65,{||'Loja'},oDlg1,,,,,,.T.,CLR_RED,CLR_WHITE,300,20)
 
+oSay1     := TSay():New(10,15,{||'Cliente'},oDlg1,,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
 oGet1     := TGet():New(25,10,{|u| IIF(Pcount()>0,cGet1:=u,cGet1)},oDlg1,40,10,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet1,,,,)
-oGet1:cF3 := "SA1"    
+oGet1:cF3 := "SA1"
+oSay2     := TSay():New(10,65,{||'Loja'},oDlg1,,,,,,.T.,CLR_RED,CLR_WHITE,300,20)
 oGet2     := TGet():New(25,60,{|u| IIF(Pcount()>0,cGet2:=u,cGet2)},oDlg1,30,10,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet2,,,,)
 
-oButton1  := TButton():New(60, 10,"Bloquear", oDlg1,{||fBloq(cGet1,cGet2)}, 60,15,,,.F.,.T.,.F.,,.F.,,,.F.)
-oButton2  := TButton():New(100, 200,"Fechar Janela", oDlg1,{||oDlg1:End()}, 80,20,,oFont1,.F.,.T.,.F.,,.F.,,,.F.)
+oButton1  := TButton():New(60, 10,"Bloquear", oDlg1,{||fBloq(cGet1,cGet2)}, 40,15,,,.F.,.T.,.F.,,.F.,,,.F.)
+oButton2  := TButton():New(60, 60,"Desbloquear", oDlg1,{||fDebloq(cGet1,cGet2)}, 40,15,,,.F.,.T.,.F.,,.F.,,,.F.)
+oButton3  := TButton():New(60, 150,"Fechar Janela", oDlg1,{||oDlg1:End()}, 60,15,,oFont1,.F.,.T.,.F.,,.F.,,,.F.)
 oDlg1:Activate(,,,.T.)
 
 Return 
@@ -60,7 +61,17 @@ Msginfo("O cliente com código "+cCod+" e loja "+cLoja+" está sendo bloqueado")
     
 Return 
 
+Static Function fDebloq(cCod,cLoja)
 
+DbSelectArea("SA1")
+SA1->(DbSeek(xFilial("SA1")+cCod+cLoja)) 
 
+RecLock("SA1",.F.) 
+    SA1->A1_MSBLQL := '2'
 
+MsUnlock()
 
+Msginfo("O cliente com código "+cCod+" e loja "+cLoja+" está sendo Desbloqueado")
+    
+    
+Return 
