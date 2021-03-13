@@ -9,7 +9,6 @@ Fonte criado com o intuito de aprender os componentes visuais do ADVPL
 @version  
 @author Flavio
 @since 28/02/2021
-@return return_type, return_description
 @see https://tdn.totvs.com/display/tec/TFont%3ANew  
 @see https://tdn.totvs.com/display/tec/Construtor+TDialog%3ANew
 @see https://tdn.totvs.com/display/tec/Construtor+TButton%3ACreate
