@@ -1,0 +1,166 @@
+#Include 'Totvs.ch'
+#Include 'Protheus.ch'
+
+
+User Function zAltCads()
+
+Local oDlg1    
+Local oFolder
+Local aFolder
+
+Local cGet1 := Space(LEN(SA1->A1_COD))
+Local cGet2 := Space(LEN(SA1->A1_LOJA))
+
+Local cGet3 := Space(LEN(SA2->A2_COD))
+Local cGet4 := Space(LEN(SA2->A2_LOJA))
+
+Local cGet5 := Space(LEN(SB1->B1_COD))
+Local cGet6 := Space(LEN(SB1->B1_DESC))
+
+Local oGet1
+Local oGet2
+Local oGet3
+Local oGet4
+Local oGet5
+Local oGet6
+
+Local oSay1
+Local oSay2
+Local oSay3
+Local oSay4
+Local oSay5
+Local oSay6
+
+Local oButton1
+Local oButton2
+Local oButton3
+Local oButton4
+Local oButton5
+Local oButton6
+
+oDlg1     := TDialog():New(0,0,300,400, 'Painel de Abas',,,,,CLR_BLACK,CLR_WHITE,,,.T.)
+
+aFolder   := {"Cliente","Fornecedor","Produto"}
+oFolder   := TFolder():New(0,0,aFolder,aFolder,oDlg1,,,,.T.,,200,300)
+
+oSay1     := TSay():New(10,15,{||"Cliente"},oFolder:aDialogs[1],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+oGet1     := TGet():New(10,01,{|u| IIF(Pcount()>0,cGet1:=u,cGet1)},oFolder:aDialogs[1],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet1,,,, )
+oGet1:cF3 := "SA1"
+oSay2     := TSay():New(10,20,{||"Loja"},oFolder:aDialogs[1],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+oGet2     := TGet():New(10,20,{|u| IIF(Pcount()>0,cGet2:=u,cGet2)},oFolder:aDialogs[1],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet2,,,, )
+oButton1  := TButton():New(25,10,"Bloquear",oFolder:aDialogs[1],{||fBloq1(cGet1,cGet2)},60,15,,,.F.,.T.,.F.,,.F.,,,.F. )
+oButton2  := TButton():New(25,50,"Desbloquear",oFolder:aDialogs[1],{||fDebloq1(cGet1,cGet2)},60,15,,,.F.,.T.,.F.,,.F.,,,.F. )
+
+oSay3     := TSay():New(10,15,{||"Fornecedor"},oFolder:aDialogs[2],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+oGet3     := TGet():New(10,01,{|u| IIF(Pcount()>0,cGet3:=u,cGet3)},oFolder:aDialogs[2],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet3,,,, )
+oGet3:cF3 := "SA2"
+oSay4     := TSay():New(10,20,{||"Loja"},oFolder:aDialogs[2],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+oGet4     := TGet():New(10,20,{|u| IIF(Pcount()>0,cGet4:=u,cGet4)},oFolder:aDialogs[2],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet4,,,, )
+oButton3  := TButton():New(25,10,"Bloquear",oFolder:aDialogs[2],{||fBloq2(cGet3,cGet4)},60,15,,,.F.,.T.,.F.,,.F.,,,.F. )
+oButton4  := TButton():New(25,50,"Desbloquear",oFolder:aDialogs[2],{||fDebloq2(cGet3,cGet3)},60,15,,,.F.,.T.,.F.,,.F.,,,.F. )
+
+
+oSay5     := TSay():New(10,10,{||"Código"},oFolder:aDialogs[3],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+oGet5     := TGet():New(10,01,{|u| IIF(Pcount()>0,cGet5:=u,cGet5)},oFolder:aDialogs[3],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet5,,,, )
+oGet5:cF3 := "SB1"
+oSay6     := TSay():New(10,10,{||"Descrição"},oFolder:aDialogs[3],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+oGet6     := TGet():New(10,01,{|u| IIF(Pcount()>0,cGet6:=u,cGet6)},oFolder:aDialogs[3],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet6,,,, )
+oButton5  := TButton():New(25,10,"Bloquear",oFolder:aDialogs[3],{||fBloq3(cGet5,cGet6)},60,15,,,.F.,.T.,.F.,,.F.,,,.F. )
+oButton6  := TButton():New(25,50,"Desbloquear",oFolder:aDialogs[3],{||fDebloq3(cGet5,cGet6)},60,15,,,.F.,.T.,.F.,,.F.,,,.F. )
+
+
+oDlg1:Activate(,,,.T.)
+
+
+Return 
+
+Static Function fBloq1(cCod1,cLoja1) //Vai receber o conteúdo das variáveis cGet1 e cGet2
+
+DbSelectArea("SA1")
+SA1->(DbSeek(xFilial("SA1")+cCod1+cLoja1)) // Vai procurar o cliente e a loja que estão dentro dos Gets
+
+RecLock("SA1",.F.) //usa-se true (.T.), para inclusão e false (.F.) para EDIÇÂO/ALTERAÇÂO
+    SA1->A1_MSBLQL := '1'
+
+MsUnlock()
+
+Msginfo("O cliente com código "+cCod1+" e loja "+cLoja1+" está sendo bloqueado")
+    
+    
+Return 
+
+Static Function fDebloq1(cCod1,cLoja1)
+
+DbSelectArea("SA1")
+SA1->(DbSeek(xFilial("SA1")+cCod1+cLoja1)) 
+
+RecLock("SA1",.F.) 
+    SA1->A1_MSBLQL := '2'
+
+MsUnlock()
+
+Msginfo("O cliente com código "+cCod1+" e loja "+cLoja1+" está sendo Desbloqueado")
+
+Return
+
+
+
+Static Function fBloq2(cCod2,cLoja2) //Vai receber o conteúdo das variáveis cGet1 e cGet2
+
+DbSelectArea("SA2")
+SA2->(DbSeek(xFilial("SA2")+cCod2+cLoja2)) // Vai procurar o cliente e a loja que estão dentro dos Gets
+
+RecLock("SA2",.F.) //usa-se true (.T.), para inclusão e false (.F.) para EDIÇÂO/ALTERAÇÂO
+    SA2->A2_MSBLQL := '1'
+
+MsUnlock()
+
+Msginfo("O cliente com código "+cCod2+" e loja "+cLoja2+" está sendo bloqueado")
+    
+    
+Return 
+
+Static Function fDebloq2(cCod2,cLoja2)
+
+DbSelectArea("SA2")
+SA2->(DbSeek(xFilial("SA2")+cCod2+cLoja2)) 
+
+RecLock("SA2",.F.) 
+    SA2->A2_MSBLQL := '2'
+
+MsUnlock()
+
+Msginfo("O cliente com código "+cCod2+" e loja "+cLoja2+" está sendo Desbloqueado")
+
+Return
+    
+
+Static Function fBloq3(cCod3,cDesc) //Vai receber o conteúdo das variáveis cGet1 e cGet2
+
+DbSelectArea("SB1")
+SB1->(DbSeek(xFilial("SB1")+cCod3+cDesc)) // Vai procurar o cliente e a loja que estão dentro dos Gets
+
+RecLock("SB1",.F.) //usa-se true (.T.), para inclusão e false (.F.) para EDIÇÂO/ALTERAÇÂO
+    SB1->B1_MSBLQL := '1'
+
+MsUnlock()
+
+Msginfo("O cliente com código "+cCod3+" e loja "+cDesc+" está sendo bloqueado")
+    
+    
+Return 
+
+Static Function fDebloq3(cCod3,cDesc)
+
+DbSelectArea("SB1")
+SB1->(DbSeek(xFilial("SB1")+cCod3+cDesc)) 
+
+RecLock("SB1",.F.) 
+    SB1->B1_MSBLQL := '2'
+
+MsUnlock()
+
+Msginfo("O cliente com código "+cCod3+" e loja "+cDesc+" está sendo Desbloqueado")
+
+Return
+
