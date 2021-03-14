@@ -1,12 +1,10 @@
 #Include 'totvs.ch'
 #Include 'protheus.ch'
 
-//DEFINE 
- 
+
 /*/{Protheus.doc} zTFont
 Fonte criado com o intuito de aprender os componentes visuais do ADVPL
 @type function
-@version  
 @author Flavio
 @since 28/02/2021
 @see https://tdn.totvs.com/display/tec/TFont%3ANew  
