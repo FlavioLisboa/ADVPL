@@ -1,0 +1,47 @@
+#Include 'Totvs.ch'
+#Include 'Protheus.ch'
+
+
+User Function zTFolder()
+
+Local oDlg1    
+Local oFolder
+Local aFolder
+
+Local oGet1
+Local oGet2
+Local oGet3
+
+
+Local cGet1
+Local cGet2
+Local cGet3
+
+
+Local oSay1
+Local oSay2
+Local oSay3
+
+oDlg1   := TDialog():New(0,0,300,400, 'Painel de Abas',,,,,CLR_BLACK,CLR_WHITE,,,.T.)
+
+aFolder := {"Cliente","Fornecedor","Produto"}
+oFolder := TFolder():New(0,0,aFolder,aFolder,oDlg1,,,,.T.,,200,300)
+
+oSay1   := TSay():New(10,10,{||Cliente},oDlg1,,,,,,.T.,   CLR_BLUE,CLR_WHITE,300,20)
+oSay2   := TSay():New(10,10,{||Fornecedor},oDlg1,,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+oSay3   := TSay():New(10,10,{||Produto},oDlg1,,,,,,.T.,   CLR_BLUE,CLR_WHITE,300,20)
+
+cGet1   := "Teste TGet 01"
+oGet1   := TGet():New(01,01,{||cGet1},oTFolder:aDialogs[1],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F..cGet1,,,,)
+
+cGet2   := "Teste TGet 02"
+oGet2   := TGet():New(01,01,{||cGet2},oTFolder:aDialogs[1],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F..cGet2,,,,)
+
+cGet3   := "Teste TGet 03"
+oGet3   := TGet():New(01,01,{||cGet2},oTFolder:aDialogs[1],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F..cGet3,,,,)
+
+
+oDlg1:Activate(,,,.T.)
+
+
+Return 
