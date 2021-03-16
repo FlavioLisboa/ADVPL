@@ -38,35 +38,35 @@ Local oButton4
 Local oButton5
 Local oButton6
 
-oDlg1     := TDialog():New(0,0,300,400, 'Painel de Abas',,,,,CLR_BLACK,CLR_WHITE,,,.T.)
+oDlg1     := TDialog():New(0,0,500,600, 'Painel de Cadastros',,,,,CLR_BLACK,CLR_WHITE,,,.T.)
 
 aFolder   := {"Cliente","Fornecedor","Produto"}
-oFolder   := TFolder():New(0,0,aFolder,aFolder,oDlg1,,,,.T.,,200,300)
+oFolder   := TFolder():New(0,0,aFolder,aFolder,oDlg1,,,,.T.,,300,550)
 
-oSay1     := TSay():New(10,15,{||"Cliente"},oFolder:aDialogs[1],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
-oGet1     := TGet():New(10,01,{|u| IIF(Pcount()>0,cGet1:=u,cGet1)},oFolder:aDialogs[1],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet1,,,, )
+oSay1     := TSay():New(01,15,{||"Cliente"},oFolder:aDialogs[1],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+oGet1     := TGet():New(10,05,{|u| IIF(Pcount()>0,cGet1:=u,cGet1)},oFolder:aDialogs[1],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet1,,,, )
 oGet1:cF3 := "SA1"
-oSay2     := TSay():New(10,20,{||"Loja"},oFolder:aDialogs[1],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
-oGet2     := TGet():New(10,20,{|u| IIF(Pcount()>0,cGet2:=u,cGet2)},oFolder:aDialogs[1],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet2,,,, )
-oButton1  := TButton():New(25,10,"Bloquear",oFolder:aDialogs[1],{||fBloq1(cGet1,cGet2)},60,15,,,.F.,.T.,.F.,,.F.,,,.F. )
-oButton2  := TButton():New(25,50,"Desbloquear",oFolder:aDialogs[1],{||fDebloq1(cGet1,cGet2)},60,15,,,.F.,.T.,.F.,,.F.,,,.F. )
+oSay2     := TSay():New(01,120,{||"Loja"},oFolder:aDialogs[1],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+oGet2     := TGet():New(10,115,{|u| IIF(Pcount()>0,cGet2:=u,cGet2)},oFolder:aDialogs[1],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet2,,,, )
+oButton1  := TButton():New(50,05,"Bloquear",oFolder:aDialogs[1],{||fBloq1(cGet1,cGet2)},60,15,,,.F.,.T.,.F.,,.F.,,,.F. )
+oButton2  := TButton():New(50,80,"Desbloquear",oFolder:aDialogs[1],{||fDebloq1(cGet1,cGet2)},60,15,,,.F.,.T.,.F.,,.F.,,,.F. )
 
-oSay3     := TSay():New(10,15,{||"Fornecedor"},oFolder:aDialogs[2],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
-oGet3     := TGet():New(10,01,{|u| IIF(Pcount()>0,cGet3:=u,cGet3)},oFolder:aDialogs[2],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet3,,,, )
+oSay3     := TSay():New(01,15,{||"Fornecedor"},oFolder:aDialogs[2],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+oGet3     := TGet():New(10,05,{|u| IIF(Pcount()>0,cGet3:=u,cGet3)},oFolder:aDialogs[2],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet3,,,, )
 oGet3:cF3 := "SA2"
-oSay4     := TSay():New(10,20,{||"Loja"},oFolder:aDialogs[2],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
-oGet4     := TGet():New(10,20,{|u| IIF(Pcount()>0,cGet4:=u,cGet4)},oFolder:aDialogs[2],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet4,,,, )
-oButton3  := TButton():New(25,10,"Bloquear",oFolder:aDialogs[2],{||fBloq2(cGet3,cGet4)},60,15,,,.F.,.T.,.F.,,.F.,,,.F. )
-oButton4  := TButton():New(25,50,"Desbloquear",oFolder:aDialogs[2],{||fDebloq2(cGet3,cGet3)},60,15,,,.F.,.T.,.F.,,.F.,,,.F. )
+oSay4     := TSay():New(01,120,{||"Loja"},oFolder:aDialogs[2],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+oGet4     := TGet():New(10,115,{|u| IIF(Pcount()>0,cGet4:=u,cGet4)},oFolder:aDialogs[2],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet4,,,, )
+oButton3  := TButton():New(50,05,"Bloquear",oFolder:aDialogs[2],{||fBloq2(cGet3,cGet4)},60,15,,,.F.,.T.,.F.,,.F.,,,.F. )
+oButton4  := TButton():New(50,80,"Desbloquear",oFolder:aDialogs[2],{||fDebloq2(cGet3,cGet3)},60,15,,,.F.,.T.,.F.,,.F.,,,.F. )
 
 
-oSay5     := TSay():New(10,10,{||"Código"},oFolder:aDialogs[3],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
-oGet5     := TGet():New(10,01,{|u| IIF(Pcount()>0,cGet5:=u,cGet5)},oFolder:aDialogs[3],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet5,,,, )
+oSay5     := TSay():New(01,15,{||"Código"},oFolder:aDialogs[3],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+oGet5     := TGet():New(10,05,{|u| IIF(Pcount()>0,cGet5:=u,cGet5)},oFolder:aDialogs[3],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet5,,,, )
 oGet5:cF3 := "SB1"
-oSay6     := TSay():New(10,10,{||"Descrição"},oFolder:aDialogs[3],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
-oGet6     := TGet():New(10,01,{|u| IIF(Pcount()>0,cGet6:=u,cGet6)},oFolder:aDialogs[3],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet6,,,, )
-oButton5  := TButton():New(25,10,"Bloquear",oFolder:aDialogs[3],{||fBloq3(cGet5,cGet6)},60,15,,,.F.,.T.,.F.,,.F.,,,.F. )
-oButton6  := TButton():New(25,50,"Desbloquear",oFolder:aDialogs[3],{||fDebloq3(cGet5,cGet6)},60,15,,,.F.,.T.,.F.,,.F.,,,.F. )
+oSay6     := TSay():New(01,120,{||"Descrição"},oFolder:aDialogs[3],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+oGet6     := TGet():New(10,115,{|u| IIF(Pcount()>0,cGet6:=u,cGet6)},oFolder:aDialogs[3],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet6,,,, )
+oButton5  := TButton():New(50,05,"Bloquear",oFolder:aDialogs[3],{||fBloq3(cGet5,cGet6)},60,15,,,.F.,.T.,.F.,,.F.,,,.F. )
+oButton6  := TButton():New(50,80,"Desbloquear",oFolder:aDialogs[3],{||fDebloq3(cGet5,cGet6)},60,15,,,.F.,.T.,.F.,,.F.,,,.F. )
 
 
 oDlg1:Activate(,,,.T.)
