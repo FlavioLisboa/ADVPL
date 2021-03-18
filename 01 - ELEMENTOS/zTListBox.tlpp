@@ -1,0 +1,39 @@
+#include 'TOTVS.CH'
+#include 'Protheus.ch'
+
+//DEFINE
+
+/*/{Protheus.doc} User Function zTListBox()
+    (Programa Janela de Opcoes com TListBox)
+     @type function
+    @author FlÃ¡vio Lisboa
+    @since 17/03/2021
+    @version 1.0
+    @see https://tdn.totvs.com/display/tec/Construtor+TGet%3ANew
+    @see https://tdn.totvs.com/pages/viewpage.action?pageId=24347085
+    @see https://tdn.totvs.com/pages/viewpage.action?pageId=22479526
+    @see https://tdn.totvs.com/display/tec/TGet%3AcF3
+    @see https://tdn.totvs.com/pages/viewpage.action?pageId=23889301
+    @see https://tdn.totvs.com/pages/viewpage.action?pageId=24347041
+    @see https://tdn.totvs.com/display/tec/TListBox
+/*/
+User Function zTListBox()
+    
+Local oDlg1       // 1        2         3           4       5               6  
+Local aOpcoes := {"Feliz","Animado","Euforico","Triste","Pensativo","Codificando"}
+Local nOpcao  := 1 // Variável usada para controlar a posição que o objeto Lista está selecionado, ele guarda o que foi selecionado
+Local oListBox
+Local oButton1
+
+oDlg1  := TDialog():New(0,0,500,500,'Painel de OpÃ§Ãµes',,,,,CLR_BLACK,CLR_WHITE,,,.T.)
+
+oListBox := TListBox():New(010,010,{|u| IIF(PCount()>0,nOpcao := u,nOpcao)},aOpcoes,60,100,,oDlg1,,,,.T.)
+
+oListBox:bChange := {||MsgInfo("Mudou para o item -> " +aOpcoes[nOpcao], "Atenção ")}
+
+oButton1 := TButton():New(10,100,"Hoje você está",oDlg1,{||MsgInfo(aOpcoes[nOpcao],"Conteudo Digitado")},60,15,,,.F.,.T.,.F.,,.F.,,,.F.)
+
+
+oDlg1:Activate(,,,.T.)
+    
+Return 
