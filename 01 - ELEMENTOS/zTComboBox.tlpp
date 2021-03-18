@@ -1,0 +1,51 @@
+#include 'TOTVS.CH'
+#include 'Protheus.ch'
+
+//DEFINE
+
+/*/{Protheus.doc} User Function zTComboBox()
+    (Programa Janela de Opções com zTComboBox)
+     @type function
+    @author Flávio Lisboa
+    @since 10/03/2021
+    @version 1.0
+    @see https://tdn.totvs.com/display/tec/Construtor+TGet%3ANew
+    @see https://tdn.totvs.com/pages/viewpage.action?pageId=24347085
+    @see https://tdn.totvs.com/pages/viewpage.action?pageId=22479526
+    @see https://tdn.totvs.com/display/tec/TGet%3AcF3
+    @see https://tdn.totvs.com/pages/viewpage.action?pageId=23889301
+    @see https://tdn.totvs.com/pages/viewpage.action?pageId=24347041
+    @see https://tdn.totvs.com/display/tec/TRadMenu
+    @see https://tdn.totvs.com/display/tec/TComboBox
+ /*/
+User Function zTComboBox()
+    
+Local oDlg1       // 1        2         3           4       5               6  
+Local aOpcoes := {"Feliz","Animado","Eufórico","Triste","Pensativo","Codificando"}
+Local cOpcao  := aOpcoes[1]
+Local oCombo
+Local oButton1
+
+oDlg1    := TDialog():New(0,0,500,500,'Painel de Opções',,,,,CLR_BLACK,CLR_WHITE,,,.T.)
+
+oCombo   := TComboBox():New(010,010,{|u| IF(PCount()>0,cOpcao:=u,cOpcao)},aOpcoes,70,20,oDlg1,,{||MsgStop('Mudou parao o item' + cOpcao )},,,,.T.,,,,,,,,,'cOpcao')
+
+oButton1 := TButton():New(70,10,"Mostrar Escolha",oDlg1,{||MsgInfo(cOpcao,"Conteúdo Selecionado")},60,15,,,.F.,.T.,.F.,,.F.,,,.F.)
+
+
+oDlg1:Activate(,,,.T.)
+    
+Return 
+
+
+
+
+
+
+
+
+
+
+
+
+
