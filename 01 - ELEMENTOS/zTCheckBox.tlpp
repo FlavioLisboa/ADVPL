@@ -1,0 +1,36 @@
+#Include 'Totvs.ch'
+#Include 'Protheus.ch'
+
+
+/*/{Protheus.doc} User Function zTCheckBox
+    (Construção de Tela com CheckBox)
+    @type  Function
+    @author Flávio Lisba
+    @since 17/03/2021
+    @version 1
+    @see https://tdn.totvs.com/display/tec/Construtor+TGet%3ANew
+    @see https://tdn.totvs.com/pages/viewpage.action?pageId=24347085
+    @see https://tdn.totvs.com/pages/viewpage.action?pageId=22479526
+    @see https://tdn.totvs.com/display/tec/TGet%3AcF3
+    @see https://tdn.totvs.com/pages/viewpage.action?pageId=23889301
+    @see https://tdn.totvs.com/pages/viewpage.action?pageId=24347041
+    @see https://tdn.totvs.com/display/tec/TCheckBox
+    /*/
+User Function zTCheckBox()
+
+Local oDlg1
+Local oCheck1
+Local oCheck2
+Local lCheck1 := .F.
+Local lCheck2 := .F.
+
+oDlg1   := TDialog():New(0,0,500,500,'Painel de CheckBox',,,,,CLR_BLACK,CLR_WHITE,,,.T.)
+
+oCheck1 := TCheckBox():New(20,01,'CheckBOx 1',{|| lCheck1},oDlg1,100,210,,{|| lCheck1 := !lCheck1, IFF (lCheck1, MsgInfo("EStá Marcado","Status"),MsgInfo("Está Marcado","Status"))},,,,,,.T.,,,)
+oCheck2 := TCheckBox():New(30,01,'CheckBOx 1',,oDlg1,100,210,,,,,,,,.T.,,,)
+oCheck2:bSetGet := {|| lCheck2}
+oCheck2:bClicked := {|| lCheck2 := !lCheck2, IFF(lCheck2 = .T.,MsgInfo("Está marcaod",Status))}
+    
+oDlg1:Activate(,,,.T.)
+
+Return 
