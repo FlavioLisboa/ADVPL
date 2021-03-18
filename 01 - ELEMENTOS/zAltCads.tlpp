@@ -17,6 +17,7 @@ Local cGet4 := Space(LEN(SA2->A2_LOJA))
 Local cGet5 := Space(LEN(SB1->B1_COD))
 Local cGet6 := Space(LEN(SB1->B1_DESC))
 
+
 Local oGet1
 Local oGet2
 Local oGet3
@@ -64,7 +65,7 @@ oSay5     := TSay():New(01,15,{||"Código"},oFolder:aDialogs[3],,,,,,.T.,CLR_BLUE
 oGet5     := TGet():New(10,05,{|u| IIF(Pcount()>0,cGet5:=u,cGet5)},oFolder:aDialogs[3],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet5,,,, )
 oGet5:cF3 := "SB1"
 oSay6     := TSay():New(01,120,{||"Descrição"},oFolder:aDialogs[3],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
-oGet6     := TGet():New(10,115,{|u| IIF(Pcount()>0,cGet6:=u,cGet6)},oFolder:aDialogs[3],096,009,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet6,,,, )
+oGet6     := TGet():New(10,115,{|u| IIF(Pcount()>0,cGet6:=u,cGet6)},oFolder:aDialogs[3],136,009,"",,0,,,.T.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGet6,,,, )
 oButton5  := TButton():New(50,05,"Bloquear",oFolder:aDialogs[3],{||fBloq3(cGet5,cGet6)},60,15,,,.F.,.T.,.F.,,.F.,,,.F. )
 oButton6  := TButton():New(50,80,"Desbloquear",oFolder:aDialogs[3],{||fDebloq3(cGet5,cGet6)},60,15,,,.F.,.T.,.F.,,.F.,,,.F. )
 
