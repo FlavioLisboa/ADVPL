@@ -18,19 +18,69 @@
     /*/
 User Function zTCheckBox()
 
-Local oDlg1
-Local oCheck1
-Local oCheck2
-Local lCheck1 := .F.
-Local lCheck2 := .F.
+Local   oDlg1
+Local   oButton1
+Local   oButton2
+Local   oButton3
+Private oCheck1
+Private oCheck2
+Private lCheck1 := .F.
+Private lCheck2 := .F.
 
-oDlg1   := TDialog():New(0,0,500,500,'Painel de CheckBox',,,,,CLR_BLACK,CLR_WHITE,,,.T.)
+oDlg1    := TDialog():New(0,0,500,500,'Painel de CheckBox',,,,,CLR_BLACK,CLR_WHITE,,,.T.)
 
-oCheck1 := TCheckBox():New(20,01,'CheckBOx 1',{|| lCheck1},oDlg1,100,210,,{|| lCheck1 := !lCheck1, IFF (lCheck1, MsgInfo("EStá Marcado","Status"),MsgInfo("Está Marcado","Status"))},,,,,,.T.,,,)
-oCheck2 := TCheckBox():New(30,01,'CheckBOx 1',,oDlg1,100,210,,,,,,,,.T.,,,)
-oCheck2:bSetGet := {|| lCheck2}
-oCheck2:bClicked := {|| lCheck2 := !lCheck2, IFF(lCheck2 = .T.,MsgInfo("Está marcaod",Status))}
+oButton1 := TButton():New(01,01, "Mostrar Escolha",oDlg1,{|| CheckOpitions()}, 60,15,,,.F.,.T.,.F.,,.F.,,,.F.)
+
+oButton2 := TButton():New(50,05, "Marcar Todos",oDlg1,{||MarcarTodos()},60,15,,,.F.,.T.,.F.,,.F.,,,.F.)
+
+oButton3 := TButton():New(70,05, "Desmarcar Todos",oDlg1,{||Desmarcar()},60,15,,,.F.,.T.,.F.,,.F.,,,.F.)
+
+oCheck1           := TCheckBox():New(20,01,'CheckBOx 1',{|| lCheck1},oDlg1,100,210,,{|| lCheck1 := !lCheck1, IIF(lCheck1, MsgInfo("EStá Marcado","Status"),MsgInfo("Está Desmarcado","Status"))},,,,,,.T.,,,)
+oCheck2           := TCheckBox():New(30,01,'CheckBOx 2',,oDlg1,100,210,,,,,,,,.T.,,,)
+oCheck2:bSetGet   := {|| lCheck2}
+oCheck2:bLClicked := {|| lCheck2 := !lCheck2, IIF(lCheck2 = .T.,MsgInfo("Está marcado","Status"),MsgInfo("Está Desmarcador","Status"))}
     
 oDlg1:Activate(,,,.T.)
 
 Return 
+
+
+
+Static Function CheckOpitions()
+
+if lCheck1 .AND. lCheck2 = .F.
+    MsgInfo("Somente o Check 1 está marcado")
+elseif lCheck2 .AND. !lCheck1    
+    MsgInfo("Somente o Check2 está marcado")
+elseif lCheck2 .AND. lCheck2
+    MsgInfo("Todas as opções estão marcadas")
+else
+    MsgInfo("Todas as opções estão desmarcadas")
+endif
+    
+Return 
+
+
+
+Static Function MarcarTodos()
+
+lCheck1 := .T.
+lCheck2 := .T.
+
+oCheck1:Refresh()
+oCheck2:Refresh()
+    
+Return 
+
+
+Static Function Desmarcar()
+
+lCheck1 := .F.
+lCheck2 := .F.
+
+oCheck1:Refresh()
+oCheck2:Refresh()
+    
+    
+Return 
+
