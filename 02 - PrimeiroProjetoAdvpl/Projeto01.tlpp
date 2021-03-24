@@ -1,0 +1,130 @@
+#Include 'Totvs.ch'
+#Include 'Protheus.ch'
+
+/*/{Protheus.doc} User Function Projeto01
+    (long_description)
+    @type  Function
+    @author user
+    @since 23/03/2021
+    @version version
+    @param param_name, param_type, param_descr
+    @return return_var, return_type, return_description
+    @example
+    (examples)
+    @see (links_or_references)
+    /*/
+User Function Projeto01()
+
+Private oDlg1
+Private cTituloJanela := "Projeto 01"
+
+//Declarar as variáveis do Folder/Pasta
+
+Private oFolder
+Private aFolder
+
+//Variáveis refentes aos objetos do Folder01(Dados Pessoais)
+
+Private oSayNome
+Private oGetNome
+Private cGetNome
+
+Private oSayNreduz
+Private oGetNreduz
+Private cGetNreduz
+
+Private oSayDtNasc
+Private oGetDtNasc
+Private dGetDtNasc
+
+Private oSayDDD
+Private oGetDDD
+Private cGetDDD
+
+Private oSayNCel
+Private oGetNCel
+Private cGetNCel
+
+Private oGroupSexo // Agrupador de elementos que receberá os RadioButtons de Sexo
+
+Private aSexo     := {"Masculino","Feminino"}
+Private nSexo     := 2
+Private oRadioSexo
+
+
+Private oSayCPF
+Private oGetCPF
+Private cGetCPF
+
+
+oDlg1      := TDialog():New(0,0,720,1280,cTituloJanela,,,,,CLR_BLACK,CLR_WHITE,,,.T.)
+aFolder    := {"Dados Pessoais","Endereço","Outros"}
+oFolder    := TFolder():New(0,0,aFolder,aFolder,oDlg1,,,,.T.,,600,200)
+
+//Elementos visuais que compõem o FOLDER01 (Dados Pessoais)
+oSayNome   := TSay():New(01,10,{||"Nome"},oFolder:aDialogs[1],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+cGetNome   := Space(30)
+oGetNome   := TGet():New(10,05,{|u| IIF(Pcount()>0,cGetNome:=u,cGetNome)},oFolder:aDialogs[1],095,010,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGetNome,,,, )
+
+oSayNreduz := TSay():New(01,120,{||"Nome Reduzido"},oFolder:aDialogs[1],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+cGetNreduz := Space(30)
+oGetNreduz := TGet():New(10,115,{|u| IIF(Pcount()>0,cGetNreduz:=u,cGetNreduz)},oFolder:aDialogs[1],095,010,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGetNreduz,,,, )
+
+oSayDtNasc := TSay():New(01,220,{||"Data de Nascimento"},oFolder:aDialogs[1],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+dGetDtNasc := Date() // Função que trás a data atual
+oGetDtNasc := TGet():New(10,225,{|u| IIF(Pcount()>0,dGetDtNasc:=u,dGetDtNasc)},oFolder:aDialogs[1],065,010,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,"",,,, )
+
+oSayDDD    := TSay():New(01,300,{||"DDD"},oFolder:aDialogs[1],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+cGetDDD    := Space(2)
+oGetDDD    := TGet():New(10,305,{|u| IIF(Pcount()>0,cGetDDD:=u,cGetDDD)},oFolder:aDialogs[1],10,010,"@E (99)",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGetDDD,,,,.T. )
+
+oSayNCel   := TSay():New(01,335,{||"Nº Celular"},oFolder:aDialogs[1],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+cGetNCel   := Space(11)
+oGetNCel   := TGet():New(10,340,{|u| IIF(Pcount()>0,cGetNCel:=u,cGetNCel)},oFolder:aDialogs[1],095,010,"@E 9-9999-9999",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGetNCel,,,, )
+
+oGroupSexo := TGroup():New(05,450,50,540,"Sexo",oFolder:aDialogs[1],,,.T.) //Preste atenção no dimensionamento/tamanho do elemento. este é diferente dos outros
+oRadioSexo := TRadMenu():New(10,460,aSexo,{|u| IIF(PCount()>0,nSexo := u,nSexo)},oFolder:aDialogs[1],,,,,,,,60,20,,,,.T.)
+
+oSayCPF    := TSay():New(30,10,{||"Nº Celular"},oFolder:aDialogs[1],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+cGetCPF    := Space(14)
+oGetCPF    := TGet():New(40,05,{|u| IIF(Pcount()>0,cGetCPF:=u,cGetCPF)},oFolder:aDialogs[1],095,010,"@E 999.999.999-99",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGetCPF,,,, )
+
+
+//Variáveis refentes aos objetos do Folder01(Endereço)
+
+Private oSayEndereco
+Private cGetEndereco
+Private oGetEndereco
+
+Private oSayBairro
+Private cGetBairro
+Private oGetBairro
+
+Private oSayImovel
+Private aImovel    := {"Casa","Apartamento","Outros"}
+Private cImovel    := aImovel[2]
+Private cGetImovel
+Private oGetImovel
+
+oSayEndereco   := TSay():New(01,10,{||"Endereço"},oFolder:aDialogs[2],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+cGetEndereco   := Space(30)
+oGetEndereco   := TGet():New(10,05,{|u| IIF(Pcount()>0,cGetEndereco:=u,cGetEndereco)},oFolder:aDialogs[2],095,010,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGetEndereco,,,, )
+
+oSayBairro     := TSay():New(01,120,{||"Nome Reduzido"},oFolder:aDialogs[2],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+cGetBairro     := Space(30)
+oGetBairro     := TGet():New(10,115,{|u| IIF(Pcount()>0,cGetBairro:=u,cGetBairro)},oFolder:aDialogs[2],095,010,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGetBairro,,,, )
+
+oSayImovel     := TSay():New(01,120,{||"Nome Reduzido"},oFolder:aDialogs[2],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+oComboImovel   := TComboBox():New(010,180,{|u| IIF(Pcount()>0,cImovel:=u,cImovel)},aImovel,60,20,oFolder:aDialogs[2],,,,,,.T.,,,,,,,,,'cImovel')
+
+
+//Variáveis refentes aos objetos do Folder01(Dados Pessoais)
+
+
+
+
+oDlg1:Activate(,,,.T.)
+
+
+    
+Return 
