@@ -106,16 +106,32 @@ Private cImovel    := aImovel[2]
 Private cGetImovel
 Private oGetImovel
 
+Private oSayCEP
+Private cGetCEP
+Private oGetCEP
+
+Private oSayEstado
+Private aEstado    := {"AC","AL","AM","AP","BA","CE","DF","ES","EX","GO","MA","MG","MS","MT","PA","PB","PE","PI","PR","RJ","RN","RO","RR","RS","SC","SE","SP","TO"}
+Private cEstado    := aEstado[1]
+Private cGetEstado
+Private oGetEStado
+
 oSayEndereco   := TSay():New(01,10,{||"Endereço"},oFolder:aDialogs[2],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
 cGetEndereco   := Space(30)
 oGetEndereco   := TGet():New(10,05,{|u| IIF(Pcount()>0,cGetEndereco:=u,cGetEndereco)},oFolder:aDialogs[2],095,010,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGetEndereco,,,, )
 
-oSayBairro     := TSay():New(01,120,{||"Nome Reduzido"},oFolder:aDialogs[2],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+oSayBairro     := TSay():New(01,120,{||"Bairro"},oFolder:aDialogs[2],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
 cGetBairro     := Space(30)
 oGetBairro     := TGet():New(10,115,{|u| IIF(Pcount()>0,cGetBairro:=u,cGetBairro)},oFolder:aDialogs[2],095,010,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGetBairro,,,, )
 
-oSayImovel     := TSay():New(01,120,{||"Nome Reduzido"},oFolder:aDialogs[2],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
-oComboImovel   := TComboBox():New(010,180,{|u| IIF(Pcount()>0,cImovel:=u,cImovel)},aImovel,60,20,oFolder:aDialogs[2],,,,,,.T.,,,,,,,,,'cImovel')
+oSayImovel     := TSay():New(01,220,{||"Tipo de Imovel"},oFolder:aDialogs[2],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+oComboImovel   := TComboBox():New(010,215,{|u| IIF(Pcount()>0,cImovel:=u,cImovel)},aImovel,095,020,oFolder:aDialogs[2],,,,,,.T.,,,,,,,,,'cImovel')
+
+oSayCEP     := TSay():New(01,120,{||"CEP"},oFolder:aDialogs[2],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+cGetCEP     := Space(30)
+oGetCEP     := TGet():New(10,115,{|u| IIF(Pcount()>0,cGetCEP:=u,cGetCEP)},oFolder:aDialogs[2],095,010,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGetCEP,,,, )
+
+
 
 
 //Variáveis refentes aos objetos do Folder01(Dados Pessoais)
