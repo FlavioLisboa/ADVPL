@@ -1,29 +1,48 @@
 #Include 'Totvs.ch'
 #Include 'Protheus.ch'
 
+#DEFINE ENTER CHR(13)+CHR(10)
+
 /*/{Protheus.doc} User Function Projeto01
-    (long_description)
+    (Projeto de Tela com 3 Abas e varios elementos)
     @type  Function
-    @author user
+    @author Flavio Lisbos
     @since 23/03/2021
     @version version
     @param param_name, param_type, param_descr
     @return return_var, return_type, return_description
     @example
     (examples)
-    @see (links_or_references)
+    @see https://tdn.totvs.com/display/tec/Construtor+TGet%3ANew
+    @see https://tdn.totvs.com/pages/viewpage.action?pageId=24347085
+    @see https://tdn.totvs.com/pages/viewpage.action?pageId=22479526
+    @see https://tdn.totvs.com/display/tec/TGet%3AcF3
+    @see https://tdn.totvs.com/pages/viewpage.action?pageId=23889301
+    @see https://tdn.totvs.com/pages/viewpage.action?pageId=24347041
+    @see https://tdn.totvs.com/display/tec/TCheckBox
+    @see https://tdn.totvs.com/display/tec/TRadMenu
+    @see https://tdn.totvs.com/display/tec/TComboBox
+    @see https://tdn.totvs.com/display/tec/TListBox
+    @see https://tdn.totvs.com/display/tec/TGroup
     /*/
 User Function Projeto01()
 
 Private oDlg1
 Private cTituloJanela := "Projeto 01"
 
-//Declarar as variáveis do Folder/Pasta
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%                                                                                                                                                         %%%%%               
+%%%%                                     ###                      Declarar as variáveis do Folder/Pasta              ###                                     %%%%%
+%%%%                                                                                                                                                         %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
+
 
 Private oFolder
-Private aFolder77
+Private aFolder
 
-//Variáveis refentes aos objetos do Folder01(Dados Pessoais)
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%                                                           Variáveis do Folder/Aba 01 (Dados Pessoais)                                                  %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
 Private oSayNome
 Private oGetNome
@@ -56,6 +75,8 @@ Private oSayCPF
 Private oGetCPF
 Private cGetCPF
 
+Private oButtonValDados
+
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%                                                           Começa à construir a Tela                                                                    %%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
@@ -63,7 +84,7 @@ Private cGetCPF
 
 oDlg1      := TDialog():New(0,0,720,1280,cTituloJanela,,,,,CLR_BLACK,CLR_WHITE,,,.T.)
 aFolder    := {"Dados Pessoais","Endereço","Outros"}
-oFolder    := TFolder():New(0,0,aFolder,aFolder,oDlg1,,,,.T.,,600,200)
+oFolder    := TFolder():New(0,0,aFolder,aFolder,oDlg1,,,,.T.,.T.,700,1200)
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%                                            Elementos visuais que compõem o FOLDER 01 (Dados Pessoais)                                                  %%%%%%
@@ -77,9 +98,9 @@ oSayNreduz := TSay():New(01,120,{||"Nome Reduzido"},oFolder:aDialogs[1],,,,,,.T.
 cGetNreduz := Space(30)
 oGetNreduz := TGet():New(10,115,{|u| IIF(Pcount()>0,cGetNreduz:=u,cGetNreduz)},oFolder:aDialogs[1],095,010,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGetNreduz,,,, )
 
-oSayDtNasc := TSay():New(01,230,{||"Data de Nascimento"},oFolder:aDialogs[1],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+oSayDtNasc := TSay():New(01,225,{||"Data de Nascimento"},oFolder:aDialogs[1],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
 dGetDtNasc := Date() // Função que trás a data atual
-oGetDtNasc := TGet():New(10,225,{|u| IIF(Pcount()>0,dGetDtNasc:=u,dGetDtNasc)},oFolder:aDialogs[1],065,010,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,"",,,, )
+oGetDtNasc := TGet():New(10,220,{|u| IIF(Pcount()>0,dGetDtNasc:=u,dGetDtNasc)},oFolder:aDialogs[1],060,010,"",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,"",,,, )
 
 oSayDDD    := TSay():New(01,315,{||"DDD"},oFolder:aDialogs[1],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
 cGetDDD    := Space(2)
@@ -128,6 +149,8 @@ Private oGetEStado
 Private oSayCidade
 Private cGetCidade
 Private oGetCidade
+
+Private oButtonValEnd
 
 oSayEndereco  := TSay():New(01,10,{||"Endereço"},oFolder:aDialogs[2],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
 cGetEndereco  := Space(30)
@@ -180,12 +203,16 @@ Private lCheckCSHARP := .F.
 Private lCheckSQL    := .F.
 Private lCheckPython := .F.
 
+Private oSayButtons
 Private oButtonMarcarTodos
 Private oButtonDesMarcarTodos
 Private oButtonMostraEscolha
 
-Private oSayButtons
+Private oSayObservacao
+Private cObservacao
+Private oTMultigetObservacao
 
+Private oButtonValObs
 
 oSayEstCivil           := TSay():New(01,10,{||"Estado Civil"},oFolder:aDialogs[3],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
 oComboEstCivil         := TComboBox():New(010,05,{|u| IIF(Pcount()>0,cEstCivil:=u,cEstCivil)},aEstCivil,050,020,oFolder:aDialogs[3],,,,,,.T.,,,,,,,,,'cEstCivil')
@@ -211,28 +238,44 @@ oSayButtons            := TSay():New(100,15,{||"Botões para Marcar as Opções"},o
 
 oButtonMarcarTodos     := TButton():New(120,10, "Marcar Todos"   ,oFolder:aDialogs[3],{|| MarcarTodos()}, 60,15,,,.F.,.T.,.F.,,.F.,,,.F.)
 oButtonDesMarcarTodos  := TButton():New(120,80, "Desmarcar Todos",oFolder:aDialogs[3],{|| Desmarcar()}, 60,15,,,.F.,.T.,.F.,,.F.,,,.F.)
-oButtonMostraEscolha   := TButton():New(120,150, "Mostrar Escolha",oFolder:aDialogs[3],{|| CheckOpitions()}, 60,15,,,.F.,.T.,.F.,,.F.,,,.F.)
+oButtonMostraEscolha   := TButton():New(120,150, "Mostrar Escolha",oFolder:aDialogs[3],{|| CheckOptions()}, 60,15,,,.F.,.T.,.F.,,.F.,,,.F.)
+
+oSayObservacao         := TSay():New(01,270,{|| "Observação"},oFolder:aDialogs[3],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
+cObservacao            := "Digite aqui as características de Protheuzeiro que te definem:"
+oTMultigetObservacao   := TMultiget():New(10,270, {|u| if(PCount()>0,cObservacao := u, cObservacao)},oFolder:aDialogs[3],200,100,,,,,,.T.)
+
+oButtonValObs          := TButton():New(60,120, "Validar Dados (Obs.)"  ,oFolder:aDialogs[3],{|| ValidaObs()}, 90,30,,,.F.,.T.,.F.,,.F.,,,.F.)
 
 
 oDlg1:Activate(,,,.T.)
 
 Return
 
-Static Function CheckOpitions()
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//%%%%                                          Função Para Mostrar os CheckBox Marcados  (CheckOption)                                                     %%%%%%
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Static Function CheckOptions()
 
 if lCheckAdvpl .AND. (lCheckCSHARP .OR. lCheckPython .OR. lCheckSQL) = .F.
     MsgInfo("Somente o Advpl está marcada")
-elseif lCheckAdvpl .AND. lCheckCSHARP (!lCheckPython .OR. !lCheckSQL)
+elseif lCheckCSHARP .AND. (lCheckAdvpl .OR. lCheckPython .OR. lCheckSQL) = .F.
+    MsgInfo("Somente o CSHARP está marcada")
+elseif lCheckSQL .AND. (lCheckAdvpl .OR. lCheckPython .OR. lCheckCSHARP) = .F.
+    MsgInfo("Somente SQL está marcada")
+elseif lCheckPython .AND. (lCheckAdvpl .OR. lCheckCSHARP .OR. lCheckSQL) = .F.
+    MsgInfo("Somente Python está marcada")
+elseif lCheckAdvpl .AND. lCheckCSHARP .AND. (lCheckPython .OR. lCheckSQL) =.F.
     MsgInfo("As opções ADVPL e CSHARP estão marcadas")
-elseif lCheckAdvpl .AND. lCheckSQL (!lCheckPython .OR. !lCheckCSHARP)
+elseif lCheckAdvpl .AND. lCheckSQL .AND. (lCheckPython .OR. lCheckCSHARP) = .F.
     MsgInfo("As opções ADVPL e SQL estão marcadas")
-elseif lCheckAdvpl .AND. lCheckPython (!lCheckCSHARP .OR. !lCheckSQL)
+elseif lCheckAdvpl .AND. lCheckPython .AND. (lCheckCSHARP .OR. lCheckSQL) = .F.
     MsgInfo("As opções ADVPL e Python estão marcadas")
-elseif lCheckCSHARP .AND. lCheckSQL (!lCheckPython .OR. !lCheckAdvpl)
-    MsgInfo("As opções CSHARP e SQL estão marcadas")    
-elseif lCheckCSHARP .AND. lCheckPython (!lCheckSQL .OR. !lCheckAdvpl)
+elseif lCheckCSHARP .AND. lCheckSQL .AND. (lCheckPython .OR. lCheckAdvpl) = .F.
+    MsgInfo("As opções CSHARP e SQL estão marcadas")   
+elseif lCheckCSHARP .AND. lCheckPython .AND. (lCheckSQL .OR. lCheckAdvpl) =.F.
     MsgInfo("As opções CSHARP e Python estão marcadas")
-elseif lCheckPython .AND. lCheckSQL (!lCheckAdvpl .OR. !lCheckCSHARP)
+elseif lCheckPython .AND. lCheckSQL .AND. (lCheckAdvpl .OR. lCheckCSHARP) = .F.
     MsgInfo("As opções Python e SQL estão marcadas")
 elseif lCheckPython .AND. lCheckAdvpl .AND. lCheckCSHARP .AND. !lCheckSQL
     MsgInfo("As opções ADVPL, CSHARP e Python estão marcadas")
@@ -240,12 +283,8 @@ elseif !lCheckPython .AND. lCheckAdvpl .AND. lCheckCSHARP .AND. lCheckSQL
     MsgInfo("As opções ADVPL, CSHARP e SQL estão marcadas")
 elseif lCheckPython .AND. !lCheckAdvpl .AND. lCheckCSHARP .AND. lCheckSQL
     MsgInfo("As opções CSHARP, Python e SQL estão marcadas")    
-elseif lCheckCSHARP .AND. (!lCheckAdvpl .OR. !lCheckPython .OR. !lCheckSQL)
-    MsgInfo("Somente o CSHARP está marcada")
-elseif lCheckSQL .AND. (!lCheckAdvpl .OR. !lCheckPython .OR. !lCheckCSHARP)
-    MsgInfo("Somente SQL está marcada")
-elseif lCheckPython .AND. (!lCheckAdvpl .OR. !lCheckCSHARP .OR. !lCheckSQL)
-    MsgInfo("Somente Python está marcada")
+elseif lCheckPython .AND. lCheckAdvpl .AND. !lCheckCSHARP .AND. lCheckSQL
+    MsgInfo("As opções ADVPL, Python e SQL estão marcadas")  
 elseif lCheckPython .AND. lCheckAdvpl .AND. lCheckCSHARP .AND. lCheckSQL 
     MsgInfo("Todas as opções estão marcadas")
 else
@@ -254,6 +293,9 @@ endif
     
 Return 
 
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//%%%%                                          Função Para Marcar Todos CheckBox (MarcarTodos)                                                             %%%%%%
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 Static Function MarcarTodos()
@@ -270,6 +312,9 @@ oCheckPython:CtrlRefresh()
     
 Return 
 
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//%%%%                                          Função Para Desmarcar Todos CheckBox   (Desmarcar)                                                          %%%%%%
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Static Function Desmarcar()
 
@@ -283,6 +328,13 @@ oCheckCSHARP:Refresh()
 oCheckSQL:Refresh()
 oCheckPython:Refresh()
     
+Return 
+
+Static Function ValidaObs()
     
-    
+MsgInfo("Estado Civil --------------> " +cEstCivil+ENTER+;
+        "Possui Pet ----------------> " +aPet[nPet]+ENTER+;
+        "Linguagens que Domina -----> " +lCheckAdvpl+ lCheckCSHARP+ lCheckPython+ lCheckSQL +ENTER+;
+        "Observações ---------------> " +cObservacao+ENTER, "Aba Observações")    
+
 Return 
