@@ -3,16 +3,11 @@
 
 #DEFINE ENTER CHR(13)+CHR(10)
 
-/*/{Protheus.doc} User Function Projeto01
+/*{Protheus.doc} User Function Projeto01
     (Projeto de Tela com 3 Abas e varios elementos)
     @type  Function
     @author Flavio Lisbos
     @since 23/03/2021
-    @version version
-    @param param_name, param_type, param_descr
-    @return return_var, return_type, return_description
-    @example
-    (examples)
     @see https://tdn.totvs.com/display/tec/Construtor+TGet%3ANew
     @see https://tdn.totvs.com/pages/viewpage.action?pageId=24347085
     @see https://tdn.totvs.com/pages/viewpage.action?pageId=22479526
@@ -24,7 +19,8 @@
     @see https://tdn.totvs.com/display/tec/TComboBox
     @see https://tdn.totvs.com/display/tec/TListBox
     @see https://tdn.totvs.com/display/tec/TGroup
-    /*/
+    @see https://tdn.totvs.com/display/tec/TBitmap
+*/
 User Function Projeto01()
 
 Private oDlg1
@@ -67,7 +63,7 @@ Private cGetNCel
 Private oGroupSexo // Agrupador de elementos que receberá os RadioButtons de Sexo
 
 Private aSexo     := {"Masculino","Feminino"}
-Private nSexo     := 2
+Private nSexo     := 1
 Private oRadioSexo
 
 
@@ -75,7 +71,7 @@ Private oSayCPF
 Private oGetCPF
 Private cGetCPF
 
-Private oButtonValDados
+Private oButtonShowDados
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%                                                           Começa à construir a Tela                                                                    %%%%%%
@@ -117,6 +113,8 @@ oSayCPF    := TSay():New(30,10,{||"CPF"},oFolder:aDialogs[1],,,,,,.T.,CLR_BLUE,C
 cGetCPF    := Space(14)
 oGetCPF    := TGet():New(40,05,{|u| IIF(Pcount()>0,cGetCPF:=u,cGetCPF)},oFolder:aDialogs[1],095,010,"@E 999.999.999-99",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,cGetCPF,,,, )
 
+oButtonShowDados := TButton():New(80,10, "Validar Dados (Pessoais)"  ,oFolder:aDialogs[1],{|| ShowDadosPes()}, 90,30,,,.F.,.T.,.F.,,.F.,,,.F.)
+
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%                                           Elementos visuais que compõem o FOLDER 02 (Endereço)                                                         %%%%%%
@@ -130,27 +128,27 @@ Private oSayBairro
 Private cGetBairro
 Private oGetBairro
 
-Private oSayImovel
-Private aImovel    := {"Casa","Apartamento","Outros"}
-Private cImovel    := aImovel[2]
-Private cGetImovel
-Private oGetImovel
-
 Private oSayCEP
 Private cGetCEP
 Private oGetCEP
-
-Private oSayEstado
-Private aEstado    := {"AC","AL","AM","AP","BA","CE","DF","ES","EX","GO","MA","MG","MS","MT","PA","PB","PE","PI","PR","RJ","RN","RO","RR","RS","SC","SE","SP","TO"}
-Private cEstado    := aEstado[1]
-Private cGetEstado
-Private oGetEStado
 
 Private oSayCidade
 Private cGetCidade
 Private oGetCidade
 
-Private oButtonValEnd
+Private oSayEstado
+Private aEstado    := {"AC","AL","AM","AP","BA","CE","DF","ES","EX","GO","MA","MG","MS","MT","PA","PB","PE","PI","PR","RJ","RN","RO","RR","RS","SC","SE","SP","TO"}
+Private cEstado    := aEstado[2]
+Private cGetEstado
+Private oGetEStado
+
+Private oSayImovel
+Private aImovel    := {"Casa","Apartamento","Outros"}
+Private cImovel    := aImovel[1]
+Private cGetImovel
+Private oGetImovel
+
+Private oButtonShowEnd
 
 oSayEndereco  := TSay():New(01,10,{||"Endereço"},oFolder:aDialogs[2],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
 cGetEndereco  := Space(30)
@@ -174,6 +172,7 @@ oComboEstado  := TComboBox():New(010,455,{|u| IIF(Pcount()>0,cEstado:=u,cEstado)
 oSayImovel    := TSay():New(30,10,{||"Tipo de Imovel"},oFolder:aDialogs[2],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
 oComboImovel  := TComboBox():New(040,05,{|u| IIF(Pcount()>0,cImovel:=u,cImovel)},aImovel,095,025,oFolder:aDialogs[2],,,,,,.T.,,,,,,,,,'cImovel')
 
+oButtonShowEnd := TButton():New(80,10, "Validar Dados (Endereço)"  ,oFolder:aDialogs[2],{|| ShowDadosEnd()}, 90,30,,,.F.,.T.,.F.,,.F.,,,.F.)
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%                                           Elementos visuais que compõem o FOLDER 03 (Outros)                                                         %%%%%%
@@ -212,7 +211,19 @@ Private oSayObservacao
 Private cObservacao
 Private oTMultigetObservacao
 
-Private oButtonValObs
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//%%%%                                    Variáveis de elementos visuais que estão fora do folder  (BitMaps)                                            %%%%%%
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Private oButtonIncluir
+Private oButtonAlterar
+Private oButtonConsultar
+Private oButtonExcluir
+
+Private oBmpIncluir
+Private oBmpAlterar
+Private oBmpConsultar
+Private oBmpExcluir
 
 oSayEstCivil           := TSay():New(01,10,{||"Estado Civil"},oFolder:aDialogs[3],,,,,,.T.,CLR_BLUE,CLR_WHITE,300,20)
 oComboEstCivil         := TComboBox():New(010,05,{|u| IIF(Pcount()>0,cEstCivil:=u,cEstCivil)},aEstCivil,050,020,oFolder:aDialogs[3],,,,,,.T.,,,,,,,,,'cEstCivil')
@@ -244,7 +255,27 @@ oSayObservacao         := TSay():New(01,270,{|| "Observação"},oFolder:aDialogs[3
 cObservacao            := "Digite aqui as características de Protheuzeiro que te definem:"
 oTMultigetObservacao   := TMultiget():New(10,270, {|u| if(PCount()>0,cObservacao := u, cObservacao)},oFolder:aDialogs[3],200,100,,,,,,.T.)
 
-oButtonValObs          := TButton():New(60,120, "Validar Dados (Obs.)"  ,oFolder:aDialogs[3],{|| ValidaObs()}, 90,30,,,.F.,.T.,.F.,,.F.,,,.F.)
+oButtonShowObs         := TButton():New(160,10, "Validar Dados (Obs.)"  ,oFolder:aDialogs[3],{|| ShowDadosObs()}, 90,30,,,.F.,.T.,.F.,,.F.,,,.F.)
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//%%%%                                               Elementos visuais que estão fora do folder  (BitMaps)                                                  %%%%%%
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+oBmpIncluir             := TBitmap():New(200,30,142,142,,"D:\TOTVS12\protheus_data\system\incluirprotheuzeiro.bmp",.T.,oDlg1,{||Alert("Clicou em Incluir")},,.F.,.F.,,,.F.,,.T.,,.F.)
+oBmpIncluir:lAutoSize   := .T.
+oBmpAlterar             := TBitmap():New(200,90,142,142,,"D:\TOTVS12\protheus_data\system\alterarprotheuzeiro.bmp",.T.,oDlg1,{||Alert("Clicou em Alterar")},,.F.,.F.,,,.F.,,.T.,,.F.)
+oBmpAlterar:lAutoSize   := .T.
+oBmpConsultar           := TBitmap():New(200,150,142,142,,"D:\TOTVS12\protheus_data\system\consultarprotheuzeiro.bmp",.T.,oDlg1,{||Alert("Clicou em Consular")},,.F.,.F.,,,.F.,,.T.,,.F.)
+oBmpConsultar:lAutoSize := .T.
+oBmpExcluir             := TBitmap():New(200,210,142,142,,"D:\TOTVS12\protheus_data\system\excluirprotheuzeiro.bmp",.T.,oDlg1,{||Alert("Clicou em Excluir")},,.F.,.F.,,,.F.,,.T.,,.F.)
+oBmpExcluir:lAutoSize   := .T.
+
+oButtonIncluir        := TButton():New(250, 20,  "Incluir",     oDlg1,{|| },40,15,,,.F.,.T.,.F.,,.F.,,,.F.)
+oButtonAlterar        := TButton():New(250, 80,  "Alterar",     oDlg1,{|| },40,15,,,.F.,.T.,.F.,,.F.,,,.F.)
+oButtonConsultar      := TButton():New(250, 140, "Consultar",   oDlg1,{|| },40,15,,,.F.,.T.,.F.,,.F.,,,.F.)
+oButtonExcluir        := TButton():New(250, 200, "Excluir",     oDlg1,{|| },40,15,,,.F.,.T.,.F.,,.F.,,,.F.)
+
+
 
 
 oDlg1:Activate(,,,.T.)
@@ -330,11 +361,45 @@ oCheckPython:Refresh()
     
 Return 
 
-Static Function ValidaObs()
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//%%%%                       Função Para Validar e exibir os dados digitados   (ShowDadosPes/ShowDadosEnd/ShowDadosObs)                                     %%%%%%
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+Static Function ShowDadosPes()
     
-MsgInfo("Estado Civil --------------> " +cEstCivil+ENTER+;
-        "Possui Pet ----------------> " +aPet[nPet]+ENTER+;
-        "Linguagens que Domina -----> " +lCheckAdvpl+ lCheckCSHARP+ lCheckPython+ lCheckSQL +ENTER+;
-        "Observações ---------------> " +cObservacao+ENTER, "Aba Observações")    
+MsgInfo("Nome: ---------------------> " +cGetNome+ENTER+;
+        "Nome Reduzido: ------------> " +cGetNreduz+ENTER+;
+        "Nascimento: ---------------> " +DToC(dGetDtNasc)+ENTER+;
+        "Telefone: -----------------> " +cGetDDD+"-"+cGetNCel+ENTER+;
+        "Sexo: ---------------------> " +aSexo[nSexo]+ENTER+;
+        "CPF: ----------------------> " +cGetCPF,"Aba Dados Pessoais")    
+
+Return 
+
+
+
+Static Function ShowDadosEnd()
+    
+MsgInfo("Endereço: -----------------> " +cGetEndereco+ENTER+;
+        "Bairro: -------------------> " +cGetBairro+ENTER+;
+        "CEP: ----------------------> " +cGetCEP+ENTER+;
+        "Cidade: -------------------> " +cGetCidade+ENTER+;
+        "Estado - UF: --------------> " +cEstado+ENTER+;
+        "Tipo de Imóvel: -----------> " +cImovel,"Aba Endereço")    
+
+Return 
+
+
+Static Function ShowDadosObs()
+    
+MsgInfo("Estado Civil:-------------> " +cEstCivil+ENTER+;
+        "Possui Pet? --------------> " +aPet[nPet]+ENTER+;
+        "Linguagens que Domina: "  +ENTER+;
+        "ADVPL --------------------> " +IIF(lCheckAdvpl,"Sim","Não")+ENTER+;
+        "CSHARP -------------------> " +IIF(lCheckCSHARP,"Sim","Não")+ENTER+;
+        "SQL ----------------------> " +IIF(lCheckSQL,"Sim","Não")+ENTER+;
+        "Python -------------------> " +IIF(lCheckPython,"Sim","Não")+ENTER+;
+        "Observações: -------------> " +cObservacao, "Aba Observações")    
 
 Return 
