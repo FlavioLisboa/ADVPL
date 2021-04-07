@@ -80,7 +80,7 @@ Private oButtonShowDados
 
 oDlg1      := TDialog():New(0,0,720,1280,cTituloJanela,,,,,CLR_BLACK,CLR_WHITE,,,.T.)
 aFolder    := {"Dados Pessoais","Endereço","Outros"}
-oFolder    := TFolder():New(0,0,aFolder,aFolder,oDlg1,,,,.T.,.T.,700,1200)
+oFolder    := TFolder():New(0,0,aFolder,aFolder,oDlg1,,,,.T.,.T.,600,200)
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%                                            Elementos visuais que compõem o FOLDER 01 (Dados Pessoais)                                                  %%%%%%
@@ -261,22 +261,19 @@ oButtonShowObs         := TButton():New(160,10, "Validar Dados (Obs.)"  ,oFolder
 //%%%%                                               Elementos visuais que estão fora do folder  (BitMaps)                                                  %%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-oBmpIncluir             := TBitmap():New(200,30,142,142,,"D:\TOTVS12\protheus_data\system\incluirprotheuzeiro.bmp",.T.,oDlg1,{||Alert("Clicou em Incluir")},,.F.,.F.,,,.F.,,.T.,,.F.)
+oBmpIncluir             := TBitmap():New(270,30,142,142,,"D:\TOTVS12\protheus_data\system\incluirprotheuzeiro.bmp",.T.,oDlg1,{||Alert("Clicou em Incluir")},,.F.,.F.,,,.F.,,.T.,,.F.)
 oBmpIncluir:lAutoSize   := .T.
-oBmpAlterar             := TBitmap():New(200,90,142,142,,"D:\TOTVS12\protheus_data\system\alterarprotheuzeiro.bmp",.T.,oDlg1,{||Alert("Clicou em Alterar")},,.F.,.F.,,,.F.,,.T.,,.F.)
+oBmpAlterar             := TBitmap():New(270,90,142,142,,"D:\TOTVS12\protheus_data\system\alterarprotheuzeiro.bmp",.T.,oDlg1,{||Alert("Clicou em Alterar")},,.F.,.F.,,,.F.,,.T.,,.F.)
 oBmpAlterar:lAutoSize   := .T.
-oBmpConsultar           := TBitmap():New(200,150,142,142,,"D:\TOTVS12\protheus_data\system\consultarprotheuzeiro.bmp",.T.,oDlg1,{||Alert("Clicou em Consular")},,.F.,.F.,,,.F.,,.T.,,.F.)
+oBmpConsultar           := TBitmap():New(270,150,142,142,,"D:\TOTVS12\protheus_data\system\consultarprotheuzeiro.bmp",.T.,oDlg1,{||Alert("Clicou em Consular")},,.F.,.F.,,,.F.,,.T.,,.F.)
 oBmpConsultar:lAutoSize := .T.
-oBmpExcluir             := TBitmap():New(200,210,142,142,,"D:\TOTVS12\protheus_data\system\excluirprotheuzeiro.bmp",.T.,oDlg1,{||Alert("Clicou em Excluir")},,.F.,.F.,,,.F.,,.T.,,.F.)
+oBmpExcluir             := TBitmap():New(270,210,142,142,,"D:\TOTVS12\protheus_data\system\excluirprotheuzeiro.bmp",.T.,oDlg1,{||Alert("Clicou em Excluir")},,.F.,.F.,,,.F.,,.T.,,.F.)
 oBmpExcluir:lAutoSize   := .T.
 
-oButtonIncluir        := TButton():New(250, 20,  "Incluir",     oDlg1,{|| },40,15,,,.F.,.T.,.F.,,.F.,,,.F.)
-oButtonAlterar        := TButton():New(250, 80,  "Alterar",     oDlg1,{|| },40,15,,,.F.,.T.,.F.,,.F.,,,.F.)
-oButtonConsultar      := TButton():New(250, 140, "Consultar",   oDlg1,{|| },40,15,,,.F.,.T.,.F.,,.F.,,,.F.)
-oButtonExcluir        := TButton():New(250, 200, "Excluir",     oDlg1,{|| },40,15,,,.F.,.T.,.F.,,.F.,,,.F.)
-
-
-
+oButtonIncluir          := TButton():New(300, 20,  "Incluir",     oDlg1,{|| },40,15,,,.F.,.T.,.F.,,.F.,,,.F.)
+oButtonAlterar          := TButton():New(300, 80,  "Alterar",     oDlg1,{|| },40,15,,,.F.,.T.,.F.,,.F.,,,.F.)
+oButtonConsultar        := TButton():New(300, 140, "Consultar",   oDlg1,{|| },40,15,,,.F.,.T.,.F.,,.F.,,,.F.)
+oButtonExcluir          := TButton():New(300, 200, "Excluir",     oDlg1,{|| },40,15,,,.F.,.T.,.F.,,.F.,,,.F.)
 
 oDlg1:Activate(,,,.T.)
 
