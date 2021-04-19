@@ -261,13 +261,13 @@ oButtonShowObs         := TButton():New(160,10, "Validar Dados (Obs.)"  ,oFolder
 //%%%%                                               Elementos visuais que estão fora do folder  (BitMaps)                                                  %%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-oBmpIncluir             := TBitmap():New(270,30,142,142,,"D:\TOTVS12\protheus_data\system\incluirprotheuzeiro.bmp",.T.,oDlg1,{||Alert("Clicou em Incluir")},,.F.,.F.,,,.F.,,.T.,,.F.)
+oBmpIncluir             := TBitmap():New(270,30,142,142,,"H:\TOTVS\protheus_data\system\incluirprotheuzeiro.bmp",.T.,oDlg1,{||Alert("Clicou em Incluir")},,.F.,.F.,,,.F.,,.T.,,.F.)
 oBmpIncluir:lAutoSize   := .T.
-oBmpAlterar             := TBitmap():New(270,90,142,142,,"D:\TOTVS12\protheus_data\system\alterarprotheuzeiro.bmp",.T.,oDlg1,{||Alert("Clicou em Alterar")},,.F.,.F.,,,.F.,,.T.,,.F.)
+oBmpAlterar             := TBitmap():New(270,90,142,142,,"H:\TOTVS\protheus_data\system\alterarprotheuzeiro.bmp",.T.,oDlg1,{||Alert("Clicou em Alterar")},,.F.,.F.,,,.F.,,.T.,,.F.)
 oBmpAlterar:lAutoSize   := .T.
-oBmpConsultar           := TBitmap():New(270,150,142,142,,"D:\TOTVS12\protheus_data\system\consultarprotheuzeiro.bmp",.T.,oDlg1,{||Alert("Clicou em Consular")},,.F.,.F.,,,.F.,,.T.,,.F.)
+oBmpConsultar           := TBitmap():New(270,150,142,142,,"H:\TOTVS\protheus_data\system\consultarprotheuzeiro.bmp",.T.,oDlg1,{||Alert("Clicou em Consular")},,.F.,.F.,,,.F.,,.T.,,.F.)
 oBmpConsultar:lAutoSize := .T.
-oBmpExcluir             := TBitmap():New(270,210,142,142,,"D:\TOTVS12\protheus_data\system\excluirprotheuzeiro.bmp",.T.,oDlg1,{||Alert("Clicou em Excluir")},,.F.,.F.,,,.F.,,.T.,,.F.)
+oBmpExcluir             := TBitmap():New(270,210,142,142,,"H:\TOTVS\protheus_data\system\excluirprotheuzeiro.bmp",.T.,oDlg1,{||Alert("Clicou em Excluir")},,.F.,.F.,,,.F.,,.T.,,.F.)
 oBmpExcluir:lAutoSize   := .T.
 
 oButtonIncluir          := TButton():New(300, 20,  "Incluir",     oDlg1,{|| },40,15,,,.F.,.T.,.F.,,.F.,,,.F.)
