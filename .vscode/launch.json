@@ -7,7 +7,7 @@
 			"name": "Depuração do idioma TOTVS",
 			"program": "${command:AskForProgramName}",
 			"cwb": "${workspaceFolder}",
-			"smartclientBin": "D:\\TOTVS12\\Protheus\\bin\\smartclient\\smartclient.exe",
+			"smartclientBin": "H:\TOTVS\\Protheus\\bin\\smartclient\\smartclient.exe",
 			"isMultiSession": true,
 			"enableTableSync": true
 		}
@@ -22,7 +22,12 @@
 			"args": [],
 			"label": "u_zTCheckBox",
 			"description": ""
+		},
+		{
+			"args": [],
+			"label": "u_PROJETO02",
+			"description": ""
 		}
 	],
-	"lastProgramExecuted": "u_zTCheckBox"
+	"lastProgramExecuted": "u_PROJETO02"
 }
