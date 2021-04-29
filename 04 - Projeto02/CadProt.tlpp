@@ -28,7 +28,7 @@
     @see https://tdn.totvs.com/display/tec/DBSetOrder
     @see https://tdn.totvs.com/pages/viewpage.action?pageId=27675626
 */
-User Function Projeto02()
+User Function CadProt()
 
 Private oDlg1
 Private cTituloJanela := "CADASTRO DE PROTHEUZEIRO"
