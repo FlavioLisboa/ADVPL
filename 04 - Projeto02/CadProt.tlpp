@@ -311,13 +311,13 @@ SZ1->Z1_CPF      := StrTran(StrTran(cGetCPF,".",""),"-","")
 //Endereço
 SZ1->Z1_ENDEREC  := cGetEndereco
 SZ1->Z1_BAIRRO   := cGetBairro
-SZ1->Z1_CEP      := SrtTran(cGetCEP,"-","")
+SZ1->Z1_CEP      := StrTran(cGetCEP,"-","")
 SZ1->Z1_CIDADE   := cGetCidade
 SZ1->Z1_ESTADO   := cEstado
-SZ1->Z1_TIPOMO   := cImovel
+SZ1->Z1_TIPOIMO   := cImovel
 
 //Outros   
-SZ1->Z1_ESTCIV   := cEstCivil
+SZ1->Z1_ESTCIVI   := cEstCivil
 SZ1->Z1_TEMPET   := cValToChar(nPet)
 SZ1->Z1_LADVPL   := IIF(lCheckAdvpl,"1","2")  //1 para sim - 2 para não
 SZ1->Z1_CSHARP   := IIF(lCheckCSHARP,"1","2") //1 para sim - 2 para não
@@ -327,7 +327,7 @@ SZ1->Z1_MEMO     := cObservacao
 
 
 
-MsUnlockArea("SZ1")
+MsUnlock("SZ1")
 Reclock("SZ1",.T.)
 
 
