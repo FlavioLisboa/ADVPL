@@ -5,6 +5,7 @@
 #DEFINE ENTER CHR(13)+CHR(10)
 #DEFINE REPLACE StrTran
 #DEFINE SUBSTRING SUBSTR
+
 /*{Protheus.doc} User Function Projeto02
     (Projeto de Tela com 3 Abas e varios elementos + gravacaoo dos dados no banco)
     @type  Function
@@ -284,9 +285,9 @@ oBmpConsultar            := TBitmap():New(270,150,142,142,,"H:\TOTVS\protheus_da
 oBmpConsultar:lAutoSize  := .T.
 oBmpExcluir              := TBitmap():New(270,210,142,142,,"H:\TOTVS\protheus_data\system\excluirprotheuzeiro.bmp",.T.,oDlg1,{|| ExcluirSZ1()},,.F.,.F.,,,.F.,,.T.,,.F.)
 oBmpExcluir:lAutoSize    := .T.
-oBmpLimpar               := TBitmap():New(270,270,142,142,,"H:\TOTVS\protheus_data\system\limpartela.bmp",.T.,oDlg1,{||LimpaTela()},,.F.,.F.,,,.F.,,.T.,,.F.)
+oBmpLimpar               := TBitmap():New(270,330,142,142,,"H:\TOTVS\protheus_data\system\limpartela.bmp",.T.,oDlg1,{||LimpaTela()},,.F.,.F.,,,.F.,,.T.,,.F.)
 oBmpLimpar:lAutoSize     := .T.
-oBmpSair                 := TBitmap():New(270,330,142,142,,"H:\TOTVS\protheus_data\system\sair.bmp",.T.,oDlg1,{||oDlg1:End()},,.F.,.F.,,,.F.,,.T.,,.F.)
+oBmpSair                 := TBitmap():New(270,490,142,142,,"H:\TOTVS\protheus_data\system\sair.bmp",.T.,oDlg1,{||oDlg1:End()},,.F.,.F.,,,.F.,,.T.,,.F.)
 oBmpSair:lAutoSize       := .T.
 
 
@@ -294,17 +295,12 @@ oButtonIncluir           := TButton():New(300, 20,  "Incluir",     oDlg1,{|| Inc
 oButtonAlterar           := TButton():New(300, 80,  "Alterar",     oDlg1,{|| AlterarSZ1()},40,15,,,.F.,.T.,.F.,,.F.,,,.F.)
 oButtonConsultar         := TButton():New(300, 140, "Consultar",   oDlg1,{|| BuscarSZ1()},40,15,,,.F.,.T.,.F.,,.F.,,,.F.)
 oButtonExcluir           := TButton():New(300, 200, "Excluir",     oDlg1,{|| ExcluirSZ1()},40,15,,,.F.,.T.,.F.,,.F.,,,.F.)
-oButtonLimpar            := TButton():New(300, 260, "Limpar",      oDlg1,{|| LimpaTela()},40,15,,,.F.,.T.,.F.,,.F.,,,.F.)
-oButtonSair              := TButton():New(300, 320, "Sair",        oDlg1,{|| oDlg1:End()},40,15,,,.F.,.T.,.F.,,.F.,,,.F.)
+oButtonLimpar            := TButton():New(300, 320, "Limpar",      oDlg1,{|| LimpaTela()},40,15,,,.F.,.T.,.F.,,.F.,,,.F.)
+oButtonSair              := TButton():New(300, 480, "Sair",        oDlg1,{|| oDlg1:End()},40,15,,,.F.,.T.,.F.,,.F.,,,.F.)
 
 oDlg1:Activate(,,,.T.)
 
 Return
-
-//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//%%%%                                           Funcao para incluir registros na tabela SZ1                                                                %%%%%%
-//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%                                          Funcao Para Mostrar os CheckBox Marcados  (CheckOption)                                                     %%%%%%
@@ -386,6 +382,10 @@ oCheckPython:Refresh()
 Return 
 
 
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//%%%%                                           Funcao para incluir registros na tabela SZ1                                                                %%%%%%
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 Static Function IncluirSZ1()
@@ -395,53 +395,55 @@ DBSetOrder(1)
 
 IF DbSeek(xFilial("SZ1")+cGetCod)
     MsgInfo("O Codigo Escolhido ja existe","Inclusao Negada!")
-elseif EMPTY(cGetCod)
-    MsgInfo("Campo Codigo em branco, NAO PERMITIDO")
 else
     
-
- DBSelectArea("SZ1")
- Reclock("SZ1",.T.)
-
-  //Dados 
-  SZ1->Z1_FILIAL    := xFilial("SZ1") //Preenchera branco/dois espacos vazios, pois apensar de estarmos logado da filial 01, esta tabela e compartilhada.
-  SZ1->Z1_COD       := cGetCod
-  SZ1->Z1_NOME      := cGetNome
-  SZ1->Z1_NOMERED   := cGetNreduz
-  SZ1->Z1_DATNASC   := dGetDtNasc
-  SZ1->Z1_DDDCEL    := REPLACE(REPLACE(cGetDDD,"(",""),")","")
-  SZ1->Z1_CELULAR   := REPLACE(cGetNCel,"-","")
-  SZ1->Z1_SEXO      := cValToChar(nSexo) // 1 Para Masculino - 2 para feminino
-  /*SZ1->Z1_SEXO    := IIF(aSexo[nSexo] = "Masculino",1,2) - outra forma de fazer*/ 
-  SZ1->Z1_CPF       := REPLACE(REPLACE(cGetCPF,".",""),"-","")
-
-  //Endereco
-  SZ1->Z1_ENDEREC   := cGetEndereco
-  SZ1->Z1_BAIRRO    := cGetBairro
-  SZ1->Z1_CEP       := REPLACE(REPLACE(cGetCEP,".",""),"-","")
-  SZ1->Z1_CIDADE    := cGetCidade
-  SZ1->Z1_ESTADO    := cEstado
-  SZ1->Z1_TIPOIMO   := cImovel
-
-  //Outros   
-  SZ1->Z1_ESTCIVI   := cEstCivil
-  SZ1->Z1_TEMPET    := cValToChar(nPet)
-  SZ1->Z1_LADVPL    := IIF(lCheckAdvpl,"1","2")  
-  SZ1->Z1_CSHARP    := IIF(lCheckCSHARP,"1","2") 
-  SZ1->Z1_SQL       := IIF(lCheckSQL,"1","2")    
-  SZ1->Z1_PYTHON    := IIF(lCheckPython,"1","2") 
-  SZ1->Z1_MEMO      := cObservacao
-
-
-MsUnlock("SZ1")
-Reclock("SZ1",.T.)
-
-        if SZ1->Z1_SEXO = "1"
-            MsgInfo("Protheuzeiro incluido com Sucesso!", "Sucesso")
-        else
-            MsgInfo("Protheuzeira incluida com Sucesso!", "Sucesso")
+    IF (!EMPTY(cGetCod) .AND. !EMPTY(cGetNome) .AND. !EMPTY(cGetNreduz) .AND. !EMPTY(cGetDDD) .AND. !EMPTY(cGetNCel) .AND. !EMPTY(cGetCPF))
             
-        endif
+         Reclock("SZ1",.T.)
+
+          //Dados 
+          SZ1->Z1_FILIAL    := xFilial("SZ1") //Preenchera branco/dois espacos vazios, pois apensar de estarmos logado da filial 01, esta tabela e compartilhada.
+          SZ1->Z1_COD       := cGetCod
+          SZ1->Z1_NOME      := cGetNome
+          SZ1->Z1_NOMERED   := cGetNreduz
+          SZ1->Z1_DATNASC   := dGetDtNasc
+          SZ1->Z1_DDDCEL    := REPLACE(REPLACE(cGetDDD,"(",""),")","")
+          SZ1->Z1_CELULAR   := REPLACE(cGetNCel,"-","")
+          SZ1->Z1_SEXO      := cValToChar(nSexo) // 1 Para Masculino - 2 para feminino
+          /*SZ1->Z1_SEXO    := IIF(aSexo[nSexo] = "Masculino",1,2) - outra forma de fazer*/ 
+          SZ1->Z1_CPF       := REPLACE(REPLACE(cGetCPF,".",""),"-","")
+
+          //Endereco
+          SZ1->Z1_ENDEREC   := cGetEndereco
+          SZ1->Z1_BAIRRO    := cGetBairro
+          SZ1->Z1_CEP       := REPLACE(REPLACE(cGetCEP,".",""),"-","")
+          SZ1->Z1_CIDADE    := cGetCidade
+          SZ1->Z1_ESTADO    := cEstado
+          SZ1->Z1_TIPOIMO   := cImovel
+
+          //Outros   
+          SZ1->Z1_ESTCIVI   := cEstCivil
+          SZ1->Z1_TEMPET    := cValToChar(nPet)
+          SZ1->Z1_LADVPL    := IIF(lCheckAdvpl,"1","2")  
+          SZ1->Z1_CSHARP    := IIF(lCheckCSHARP,"1","2") 
+          SZ1->Z1_SQL       := IIF(lCheckSQL,"1","2")    
+          SZ1->Z1_PYTHON    := IIF(lCheckPython,"1","2") 
+          SZ1->Z1_MEMO      := cObservacao
+
+
+        MsUnlock()
+        
+
+          if SZ1->Z1_SEXO = "1"
+             MsgInfo("Protheuzeiro incluido com Sucesso!", "Sucesso")
+          else
+             MsgInfo("Protheuzeira incluida com Sucesso!", "Sucesso")
+          endif
+
+        
+    else
+       Alert("Existe campos em branco, por favor verifique!!!")
+    endif
 
     LimpaTela()
 
@@ -497,15 +499,10 @@ IF dbSeek(xFilial("SZ1")+cGetCod)
               cObservacao   := SZ1->Z1_MEMO       
 
 else
-        if SZ1->Z1_SEXO = "1"
-            Alert("Protheuzeiro nao localizado", "Sucesso")
-        else
-            Alert("Protheuzeira nao localizada", "Sucesso")
-            
-        endif
+             Alert("Protheuzeiro(a) nao localizado(a)", "Sucesso")
 endif
 
-DbCloseArea("SZ1")
+DbCloseArea()
 
 Return
 
@@ -517,51 +514,59 @@ Return
 
 Static Function AlterarSZ1()
 
+IF (EMPTY(cGetCod) .OR. EMPTY(cGetNome) .OR. EMPTY(cGetNreduz) .OR. EMPTY(cGetDDD) .OR. EMPTY(cGetNCel) .OR. EMPTY(cGetCPF))
+           Alert("Existe campos vazios, por favor verifique!")
+elseif MSGYESNO("Deseja mesmo alterar o registro de "+AllTrim(cGetNome)+"?","ATENCAO")
+
+
 DBSelectArea("SZ1")
 DBSetOrder(1)
 
 
-if DbSeek(xFilial("SZ1")+cGetCod)
+ if DbSeek(xFilial("SZ1")+cGetCod)
 
-   Reclock("SZ1",.F.)
+    Reclock("SZ1",.F.)
 
-    //Dados 
-    SZ1->Z1_NOME      := cGetNome
-    SZ1->Z1_NOMERED   := cGetNreduz
-    SZ1->Z1_DATNASC   := dGetDtNasc
-    SZ1->Z1_DDDCEL    := REPLACE(REPLACE(cGetDDD,"(",""),")","")
-    SZ1->Z1_CELULAR   := REPLACE(cGetNCel,"-","")
-    SZ1->Z1_SEXO      := cValToChar(nSexo) // 1 Para Masculino - 2 para feminino
-    SZ1->Z1_CPF       := REPLACE(REPLACE(cGetCPF,".",""),"-","")
+      //Dados 
+      SZ1->Z1_NOME      := cGetNome
+      SZ1->Z1_NOMERED   := cGetNreduz
+      SZ1->Z1_DATNASC   := dGetDtNasc
+      SZ1->Z1_DDDCEL    := REPLACE(REPLACE(cGetDDD,"(",""),")","")
+      SZ1->Z1_CELULAR   := REPLACE(cGetNCel,"-","")
+      SZ1->Z1_SEXO      := cValToChar(nSexo) // 1 Para Masculino - 2 para feminino
+      SZ1->Z1_CPF       := REPLACE(REPLACE(cGetCPF,".",""),"-","")
 
-    //Endereco
-    SZ1->Z1_ENDEREC   := cGetEndereco
-    SZ1->Z1_BAIRRO    := cGetBairro
-    SZ1->Z1_CEP       := REPLACE(REPLACE(cGetCEP,".",""),"-","")
-    SZ1->Z1_CIDADE    := cGetCidade
-    SZ1->Z1_ESTADO    := cEstado
-    SZ1->Z1_TIPOIMO   := cImovel
+      //Endereco
+      SZ1->Z1_ENDEREC   := cGetEndereco
+      SZ1->Z1_BAIRRO    := cGetBairro
+      SZ1->Z1_CEP       := REPLACE(REPLACE(cGetCEP,".",""),"-","")
+      SZ1->Z1_CIDADE    := cGetCidade
+      SZ1->Z1_ESTADO    := cEstado
+      SZ1->Z1_TIPOIMO   := cImovel
 
-    //Outros   
-    SZ1->Z1_ESTCIVI   := cEstCivil
-    SZ1->Z1_TEMPET    := cValToChar(nPet)
-    SZ1->Z1_LADVPL    := IIF(lCheckAdvpl,"1","2")  
-    SZ1->Z1_CSHARP    := IIF(lCheckCSHARP,"1","2") 
-    SZ1->Z1_SQL       := IIF(lCheckSQL,"1","2")    
-    SZ1->Z1_PYTHON    := IIF(lCheckPython,"1","2") 
-    SZ1->Z1_MEMO      := cObservacao
+      //Outros   
+      SZ1->Z1_ESTCIVI   := cEstCivil
+      SZ1->Z1_TEMPET    := cValToChar(nPet)
+      SZ1->Z1_LADVPL    := IIF(lCheckAdvpl,"1","2")  
+      SZ1->Z1_CSHARP    := IIF(lCheckCSHARP,"1","2") 
+      SZ1->Z1_SQL       := IIF(lCheckSQL,"1","2")    
+      SZ1->Z1_PYTHON    := IIF(lCheckPython,"1","2") 
+      SZ1->Z1_MEMO      := cObservacao
 
- MsUnlock("SZ1")
-  if SZ1->Z1_SEXO = "1"
+    MsUnlock()
+        if SZ1->Z1_SEXO = "1"
             MsgInfo("Protheuzeiro Alterado", "Sucesso")
         else
             MsgInfo("Protheuzeira Alterada", "Sucesso")
-            
         endif
 
+else 
+    Alert("Exclusao abortada pelo usuario","Atencao")          
+
+
+  endif
+
 endif
-
-
 
 Return
 
@@ -571,36 +576,33 @@ Return
 
 Static Function ExcluirSZ1()
 
-IF MSGYESNO("Deseja mesmo excluir o registro de"+cGetNome+"?","ATENCAO")
+IF (EMPTY(cGetCod) .OR. EMPTY(cGetNome) .OR. EMPTY(cGetNreduz) .OR. EMPTY(cGetDDD) .OR. EMPTY(cGetNCel) .OR. EMPTY(cGetCPF))
+           Alert("Existe campos vazios, por favor verifique!")
+elseif MSGYESNO("Deseja mesmo excluir o registro de "+AllTrim(cGetNome)+"?","ATENCAO")
+
 
    DBSelectArea("SZ1")
    DBSetOrder(1)
 
+   DbSeek(xFilial("SZ1")+cGetCod)
 
-     if DbSeek(xFilial("SZ1")+cGetCod)
-
-     elseif EMPTY(cGetCod)
-           MsgInfo("Campo Codigo em branco, NAO PERMITIDO")
-     else
-         
-       Reclock("SZ1",.F.)
-       DBDelete()
-       MsUnlock("SZ1")
+    Reclock("SZ1",.F.)
+    DBDelete()
+    MsUnlock("SZ1")
 
          if SZ1->Z1_SEXO = "1"
              MsgInfo("Protheuzeiro Excluido", "Sucesso")
          else
              MsgInfo("Protheuzeira Excluida", "Sucesso")
          endif
-
-     endif
-          DBCloseArea("SZ1")
-
-          LimpaTela()
-     else
-     Alert("Exclusao abortada pelo usuario","Atencao")
+else
+    Alert("Exclusao abortada pelo usuario","Atencao")  
 endif
 
+    DBCloseArea()
+
+    LimpaTela()
+    
 Return
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
