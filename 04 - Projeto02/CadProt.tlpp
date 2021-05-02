@@ -4,7 +4,7 @@
 
 #DEFINE ENTER CHR(13)+CHR(10)
 #DEFINE REPLACE StrTran
-#DEFINE SUBSTRING SUBSTR
+#DEFINE SUBSTRING Substr
 
 /*{Protheus.doc} User Function Projeto02
     (Projeto de Tela com 3 Abas e varios elementos + gravacaoo dos dados no banco)
@@ -393,11 +393,11 @@ Static Function IncluirSZ1()
 DBSelectArea("SZ1")
 DBSetOrder(1)
 
-IF DbSeek(xFilial("SZ1")+cGetCod)
+if DbSeek(xFilial("SZ1")+cGetCod)
     MsgInfo("O Codigo Escolhido ja existe","Inclusao Negada!")
 else
     
-    IF (!EMPTY(cGetCod) .AND. !EMPTY(cGetNome) .AND. !EMPTY(cGetNreduz) .AND. !EMPTY(cGetDDD) .AND. !EMPTY(cGetNCel) .AND. !EMPTY(cGetCPF))
+    if (!EMPTY(cGetCod) .AND. !EMPTY(cGetNome) .AND. !EMPTY(cGetNreduz) .AND. !EMPTY(cGetDDD) .AND. !EMPTY(cGetNCel) .AND. !EMPTY(cGetCPF))
             
          Reclock("SZ1",.T.)
 
@@ -464,7 +464,7 @@ DBSelectArea("SZ1")
 DBSetOrder(1)
 
 
-IF dbSeek(xFilial("SZ1")+cGetCod)
+if dbSeek(xFilial("SZ1")+cGetCod)
         if SZ1->Z1_SEXO = "1"
             MsgInfo("Protheuzeiro localizado", "Sucesso")
         else
@@ -514,7 +514,7 @@ Return
 
 Static Function AlterarSZ1()
 
-IF (EMPTY(cGetCod) .OR. EMPTY(cGetNome) .OR. EMPTY(cGetNreduz) .OR. EMPTY(cGetDDD) .OR. EMPTY(cGetNCel) .OR. EMPTY(cGetCPF))
+if (EMPTY(cGetCod) .OR. EMPTY(cGetNome) .OR. EMPTY(cGetNreduz) .OR. EMPTY(cGetDDD) .OR. EMPTY(cGetNCel) .OR. EMPTY(cGetCPF))
            Alert("Existe campos vazios, por favor verifique!")
 elseif MSGYESNO("Deseja mesmo alterar o registro de "+AllTrim(cGetNome)+"?","ATENCAO")
 
@@ -576,7 +576,7 @@ Return
 
 Static Function ExcluirSZ1()
 
-IF (EMPTY(cGetCod) .OR. EMPTY(cGetNome) .OR. EMPTY(cGetNreduz) .OR. EMPTY(cGetDDD) .OR. EMPTY(cGetNCel) .OR. EMPTY(cGetCPF))
+if (EMPTY(cGetCod) .OR. EMPTY(cGetNome) .OR. EMPTY(cGetNreduz) .OR. EMPTY(cGetDDD) .OR. EMPTY(cGetNCel) .OR. EMPTY(cGetCPF))
            Alert("Existe campos vazios, por favor verifique!")
 elseif MSGYESNO("Deseja mesmo excluir o registro de "+AllTrim(cGetNome)+"?","ATENCAO")
 
