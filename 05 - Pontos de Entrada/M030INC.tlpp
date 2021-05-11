@@ -5,12 +5,23 @@
 #DEFINE SUBSTRING Substr
 
 User Function M030INC()
+
+Local aArea := GetArea() // Abre a tabela
     
+
+if PARAMIXB <> 3
+MsgInfo("Você acabou de inserir com sucesso o Cliente" +ENTER+;
+M->A1_NOME)
+
 Reclock("SA1",.F.)
 
-    SA1->A1_XUSRINC := RetCodUsr()
+    SA1->A1_XUSRINC := RetCodUsr() //_cUserID
 
 MsUnlock()
+
+Endif
+
+Restarea(aArea) // Liberar a área
 
 
 Return 
