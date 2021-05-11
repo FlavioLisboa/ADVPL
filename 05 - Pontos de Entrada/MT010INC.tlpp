@@ -1,0 +1,15 @@
+#Include 'Protheus.ch'
+
+#DEFINE ENTER CHR(13)+CHR(10)
+#DEFINE REPLACE StrTran
+#DEFINE SUBSTRING Substr
+
+User Function MT010INC()
+    
+
+
+MsgInfo("Você acabou de inserir com sucesso o Produto: " +ENTER+;
+M->B1_COD+B1_DESC)
+
+
+Return 

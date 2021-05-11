@@ -1,0 +1,16 @@
+#Include 'Protheus.ch'
+
+#DEFINE ENTER CHR(13)+CHR(10)
+#DEFINE REPLACE StrTran
+#DEFINE SUBSTRING Substr
+
+User Function M030INC()
+    
+Reclock("SA1",.F.)
+
+    SA1->A1_XUSRINC := RetCodUsr()
+
+MsUnlock()
+
+
+Return 

@@ -14,7 +14,11 @@ User Function CriaSZ1()
 
 dbSelectArea("SZ1") //Seleciona a área, e se a tabela não estiver criada, ele vai criar
 DBSetOrder(1)
-dbCloseArea("SZ1")
+dbCloseArea()
     
+
+dbSelectArea("SC6") //Seleciona a área, e se a tabela não estiver criada, ele vai criar
+DBSetOrder(1)
+dbCloseArea()    
 
 Return 
