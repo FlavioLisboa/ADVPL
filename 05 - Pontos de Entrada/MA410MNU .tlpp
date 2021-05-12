@@ -1,0 +1,10 @@
+#Include 'Protheus.ch'
+#Include  'Totvs.ch'
+
+User Function MA410MNU()
+
+	   
+ 	aadd(aRotina, {"Pre-Nota","MATR730"	 ,0,1,0 ,NIL})
+
+
+Return
