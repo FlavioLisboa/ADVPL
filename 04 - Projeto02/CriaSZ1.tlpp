@@ -21,4 +21,6 @@ dbSelectArea("SC6") //Seleciona a área, e se a tabela não estiver criada, ele va
 DBSetOrder(1)
 dbCloseArea()    
 
+
+
 Return 
