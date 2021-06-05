@@ -1,0 +1,17 @@
+#Include 'Protheus.ch'
+
+User Function M030DEL()
+
+Local lRet  := .T.
+Local aArea := GetArea()
+
+
+IF SA1->A1_PESSOA = "J"
+    lRet := .F.
+    Alert("Não é possivel exclur o cliente, PESSOA JURIDICA")
+
+Endif
+
+Restarea(aArea)
+
+Return (lRet)
