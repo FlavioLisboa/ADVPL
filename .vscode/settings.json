@@ -1,5 +1,6 @@
 {
     "git.ignoreLimitWarning": true,
     "totvsLanguageServer.welcomePage": false,
-    "totvsLanguageServer.askCompileResult": true
+    "totvsLanguageServer.askCompileResult": true,
+    "totvsLanguageServer.folder.enableExtensionsFilter": false
 }

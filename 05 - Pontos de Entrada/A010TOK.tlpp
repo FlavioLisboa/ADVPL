@@ -1,0 +1,28 @@
+#Include 'Protheus.ch'
+
+
+/*/{Protheus.doc} A010TOK
+Ponto de entrada que valida e bloqueia a inclusão de produtos nos grupos 0509/0514/0515
+@type function
+@version  
+@author Flavio
+@since 05/06/2021
+@return return_type, return_description
+@see (https://tdn.totvs.com/pages/releaseview.action?pageId=6087477)
+@see (https://tdn.totvs.com/display/tec/Operadores+Comuns)
+/*/
+User Function A010TOK()
+
+Local lRet := .T.
+    
+if Inclui
+    lRet := u_VALIDPEA010(M->B1_GRUPO)
+endif   
+  
+  /*  if M->B1_GRUPO $ "0509/0514/0515"
+      lRet := .F.
+        Alert("Inclusão não permitida para esse grupo","ATENÇÃO")
+    endif*/
+
+    
+Return(lRet)
