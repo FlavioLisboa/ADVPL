@@ -9,5 +9,6 @@ IF cGrupo $ "0509/0514/0515"
     lReturn := .F.
     Alert("Inclusão não permitida, devido ao código do grupo "+cGrupo+"!"+CHR(13)+CHR(10)+;
     "Os grupos devem ser diferentes de 0509/0514/0515.","ATENÇÃO")
-    
+endif
+
 Return (lReturn)

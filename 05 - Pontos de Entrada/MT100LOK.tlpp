@@ -1,11 +1,10 @@
 #INCLUDE 'PROTHEUS.CH'
 #INCLUDE 'TOTVS.CH'
 #INCLUDE 'TOPCONN.CH'
-
 /*/{Protheus.doc} User Function MT100LOK
     (Ponto de Entrada utilizado para validar a linha do documento de entrada MATA103
     implementado inicialmente para tratar e impedir que itens sejam incluidos com quantidade
-    maio ou igual a 5 e que usem TES diferente das que estão no parâmentro MV_YTESQTD.)
+    maio ou igual a 5 e que usem TES diferente das que estï¿½o no parï¿½mentro MV_YTESQTD.)
     @type  Function
     @author user
     @since 05/06/2021
@@ -30,7 +29,7 @@ if nQUANT >= 5 .AND. !(cTES$SUPERGETMVPAR("MV_YTESQTD")) //003;004;010;
     lRet := .F.
     Alert("Para quantidades iguais ou superior a 5, deve-se usar as TES especificas"+CHR(10)+CHR(13)+;
     "Consulte o seu setor Financeiro","Alert")
-    
+endif
 
 
 Return (lRet)
