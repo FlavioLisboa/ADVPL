@@ -1,6 +1,7 @@
 #INCLUDE 'PROTHEUS.CH'
 #INCLUDE 'TOTVS.CH'
 #INCLUDE 'TOPCONN.CH'
+
 /*/{Protheus.doc} User Function MT100LOK
     (Ponto de Entrada utilizado para validar a linha do documento de entrada MATA103
     implementado inicialmente para tratar e impedir que itens sejam incluidos com quantidade
@@ -15,6 +16,7 @@
     (examples)
     @see (links_or_references)
     /*/
+
 User Function MT100LOK()
 
 Local lRet      := .T.
@@ -22,7 +24,6 @@ Local nAcolsTES := aScan(aHeader, {|x| AllTrim(x[2]) == "D1_TES"})
 Local nAcolsQTD := aScan(aHeader, {|x| AllTrim(x[2]) == "D1_QUANT"}) 
 Local cTES      := aCols[n,nAcolsTES] // n = linha nAcolsTES = coluna
 Local nQUANT    := aCols[n,nAcolsQTD] // n = linha nAcolsQTD = coluna
-Local n         := 0
 
 
 if nQUANT >= 5 .AND. !(cTES$SUPERGETMVPAR("MV_YTESQTD")) //003;004;010;
