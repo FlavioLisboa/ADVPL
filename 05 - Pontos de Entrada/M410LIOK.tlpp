@@ -1,0 +1,38 @@
+#INCLUDE 'PROTHEUS.CH'
+#INCLUDE 'TOTVS.CH'
+
+
+User Function M410LIOK()
+Local lRet := .T.
+Local nCount //Variavel de controle do For
+Local nContarIguais := 0// Conta
+
+Local nAcolsQTDVen := aScan(aHeader, {|x| AllTrim(x[2]) == "C6_QTDVEN"})
+//Busca a posição da coluna referente à C6_QTDVEN/quantidade vendida
+Local nQDTVEN := aCols[n,nAcolsQTDVen]
+
+Local nAcolsCodProd := aScan(aHeader, {|x| AllTrim(x[2]) == "C6_PRODUTO"})
+Local cCodProduto   := aCols[n,nAcolsCodProd]
+
+For nCount := 1 to Len(aCols)
+    if aCol[nCount,nAcolsCodProd] = cCodProduto
+        nContarIguais ++
+    endif
+
+NEXT nCount
+
+if nContarIguais > 1
+    lRet := .F.
+    Alert("Não é permitido a inclusão de Produtos iguais no mesmo pedido","OPERAÇÂO NÂO PERMITIDA")
+endif
+
+
+if nQDTVEN > 10
+    lRet := .F.
+    Alert("Neste período de Natal, não estamos permitindo mais de 10 unidades de mesmo item")
+endif
+
+
+
+
+return lRet
