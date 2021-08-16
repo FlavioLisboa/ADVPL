@@ -19,18 +19,23 @@
 
 User Function MT100LOK()
 
+
 Local lRet      := .T.
-Local nAcolsTES := aScan(aHeader, {|x| AllTrim(x[2]) == "D1_TES"})
+Local cAcolsSUM := aScan(aHeader, {|x| AllTrim(x[2]) == "D1_SEGUM"})
 Local nAcolsQTD := aScan(aHeader, {|x| AllTrim(x[2]) == "D1_QUANT"}) 
-Local cTES      := aCols[n,nAcolsTES] // n = linha nAcolsTES = coluna
+Local cSUM      := aCols[n,cAcolsSUM] // n = linha nAcolsTES = coluna
 Local nQUANT    := aCols[n,nAcolsQTD] // n = linha nAcolsQTD = coluna
 
 
-if nQUANT >= 5 .AND. !(cTES$SUPERGETMVPAR("MV_YTESQTD")) //003;004;010;
+if nQUANT < 1000  .AND. (cSUM$SUPERGETMV("MV_YQTDSUM")) //MH;SC;
     lRet := .F.
-    Alert("Para quantidades iguais ou superior a 5, deve-se usar as TES especificas"+CHR(10)+CHR(13)+;
-    "Consulte o seu setor Financeiro","Alert")
+    Alert("Não é permitida a entrada de itens com a quantidade abaixo de 1.000 UND e que a unidade de medida" +CHR(10)+CHR(13)+;
+     "de origem seja Milheiro (MH). Corrija a quantidade"+CHR(10)+CHR(13),"Alert")
 endif
 
 
 Return (lRet)
+
+
+
+
