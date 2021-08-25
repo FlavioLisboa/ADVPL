@@ -60,8 +60,8 @@ Local aRotinaAut := FwMvcMenu("MVCSZ9") //Recebe os menus automaticamente
 ADD OPTION aRotina TITLE 'Visualizar' ACTION 'VIEWDEF.MVCSZ9' OPERATION 2 ACCESS 0
 ADD OPTION aRotina TITLE 'Incluir'    ACTION 'VIEWDEF.MVCSZ9' OPERATION 3 ACCESS 0
 ADD OPTION aRotina TITLE 'Alterar'    ACTION 'VIEWDEF.MVCSZ9' OPERATION 4 ACCESS 0
-ADD OPTION aRotina TITLE 'Excluir'    ACTION 'VIEWDEF.MVCSZ9' OPERATION 5 ACCESS 0*/
-/*
+ADD OPTION aRotina TITLE 'Excluir'    ACTION 'VIEWDEF.MVCSZ9' OPERATION 5 ACCESS 0
+
 1 - Pesquisar
 2 - Visualizar
 3 - Incluir
@@ -74,10 +74,10 @@ ADD OPTION aRotina TITLE 'Excluir'    ACTION 'VIEWDEF.MVCSZ9' OPERATION 5 ACCESS
 ADD OPTION aRotina TITLE 'Legenda'    ACTION 'u_SZ9LEG'       OPERATION 6 ACCESS 0
 ADD OPTION aRotina TITLE 'Sobre'      ACTION 'u_SZ9SOBRE'     OPERATION 6 ACCESS 0
 
-//Adiciona dentro do array aRotina, o conteúdo do array aRotinaAut
-For n := 1 TO Len(aRotinaAut)
+/*Adiciona dentro do array aRotina, o conteúdo do array aRotinaAut*/
+For n := 1 To Len(aRotinaAut)
     aAdd(aRotina,aRotinaAut[n])
-NEXT n
+Next n
 
 Return aRotina
 

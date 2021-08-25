@@ -12,7 +12,7 @@
 /*/
 User Function BRWSZ9()
 
-Local aArea := GetNextAlias()
+Local aArea := GetArea()
 Local oBrowseSZ9 //Variável que recebera o instaciamento da classe FWMBroser
 
 oBrowseSZ9 :=  FwmBrowse():New()
