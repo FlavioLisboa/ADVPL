@@ -31,8 +31,22 @@ Return
 
 
 Static Function MenuDef()
+//1ª Opção de Menu
+Local aRotina := FwMvcMenu("MVCSZ7")
 
-    
+/*Segunda Opção de Menu
+Local aRotina := {}
+ADD OPTION aRotina TITLE 'Visualizar' ACTION 'VIEWDEF.MVCSZ7' OPERATION 2 ACCESS 0
+ADD OPTION aRotina TITLE 'Incluir'    ACTION 'VIEWDEF.MVCSZ7' OPERATION 3 ACCESS 0
+ADD OPTION aRotina TITLE 'Alterar'    ACTION 'VIEWDEF.MVCSZ7' OPERATION 4 ACCESS 0
+ADD OPTION aRotina TITLE 'Excluir'    ACTION 'VIEWDEF.MVCSZ7' OPERATION 5 ACCESS 0*/
+
+/*Terceira Opção de Menu
+Local aRotina := {}
+ADD OPTION aRotina TITLE 'Visualizar' ACTION 'VIEWDEF.MVCSZ7' OPERATION MODEL_OPERATION_VIEW   ACCESS 0
+ADD OPTION aRotina TITLE 'Incluir'    ACTION 'VIEWDEF.MVCSZ7' OPERATION MODEL_OPERATION_INSERT ACCESS 0
+ADD OPTION aRotina TITLE 'Alterar'    ACTION 'VIEWDEF.MVCSZ7' OPERATION MODEL_OPERATION_UPDATE ACCESS 0
+ADD OPTION aRotina TITLE 'Excluir'    ACTION 'VIEWDEF.MVCSZ7' OPERATION MODEL_OPERATION_DELETE ACCESS 0*/
 
 
 Return aRotina
@@ -47,7 +61,7 @@ Local oStItens := FwFomrStruct(1,"SZ7") // 1 para Model - 2 para View
 
 /*Objeto principal do desenvolvimento em MVC Modelo2,ele traz as caracterísca do 
 dicionário de dados bem como é o reponsável pela estrutura de tabelas, campos e registros*/
-Local oModel := MPFormModel("MVCSZ7M",/*bPre*/,/*bPos*/,/*bCommit*/,/*bCancel*/)
+Local oModel := MPFormModel():New("MVCSZ7m",/*bPre*/,/*bPos*/,/*bCommit*/,/*bCancel*/)
 
 /*Criação da tabela temporária que será utilizada no cabeçalho*/
 
@@ -163,7 +177,7 @@ oStItens:SetProperty("Z7_LOJA",    MODEL_FIELD_INIT, FWBuildFeature(STRUCT_FEATU
 /*A partir de agora, eu faço a união das estrutura, vinculando o cabeçalho com os itens
 também faço a vinculação da estrutura de dados dos itens ao modelo*/
 
-oModel:AddFields("SZ7MASTER",oStCabec) //Faço a vinculação com o StCabec(Cabeçalho e itens temporários)
+oModel:AddFields("SZ7MASTER",,oStCabec) //Faço a vinculação com o StCabec(Cabeçalho e itens temporários)
 oModel:AddGrid("SZ7DETAIL","SZ7MASTER",oStItens,,,,,)
 
 //Seto a relação entre cabeçalho e item, neste ponto, eu digo através de qual(ais) campo(s) o grid está vinculado com o cabeçalho
@@ -182,7 +196,7 @@ oModel:SetPrimaryKey({})
 oModelGetModel("SZ7DETAIL"):SetUniqueline("Z7_ITEM")//O intuito é que este campo não se repita
 
 
-oModel:SetDescription("Modelo 2")
+//oModel:SetDescription("Modelo 2")
 
 //Setanmos a descrição/Título que aparecerá no cabeçalho
 oModel:GetModel("SZ7MASTER"):SetDescription("Cabçalho da Solicitação de Compras")
