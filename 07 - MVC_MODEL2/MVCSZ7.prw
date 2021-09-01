@@ -61,7 +61,7 @@ Local oStCabec := FWFormModelStruct():New()
 //Objeto reponsável pela estrutura dos itens
 Local oStItens := FwFormStruct(1,"SZ7") // 1 para Model - 2 para View
 
-Local bVldCom       := {|| u_Grv2SZ7()} //Chamada da User Function Commit que validará a INCLUSÃO/ALTERAÇÃO/EXCLUSÃO dos itens
+Local bVldCom       := {|| u_GrvSZ7()} //Chamada da User Function Commit que validará a INCLUSÃO/ALTERAÇÃO/EXCLUSÃO dos itens
 
 /*Objeto principal do desenvolvimento em MVC Modelo2,ele traz as caracterísca do 
 dicionário de dados bem como é o reponsável pela estrutura de tabelas, campos e registros*/
@@ -164,7 +164,7 @@ oStCabec:AddField(;
  Nil,;                                                                                     // [08] B Code-block de Validação When do campo
  {},;                                                                                      // [09] A Lista de valores permitidos no campo
  .F.,;                                                                                     // [10] L Indica se o campo tem preenchimento obrigatório
- FWBuildFeature( STRUCT_FEATURE_INIPAD, "Iif(!INCLUI,SZ7->Z7_USER,__cUserid)" ),;           // [11] B Code-block de inicialização do campo
+ FWBuildFeature( STRUCT_FEATURE_INIPAD, "Iif(!INCLUI,SZ7->Z7_USER,__cUserid)" ),;          // [11] B Code-block de inicialização do campo
  .T.,;                                                                                     // [12] L Indica se trata-se de um chave
  .F.,;                                                                                     // [13] L Indica se o campo pode receber valor de uma operação
  .F.)                                                                                      // [14] L Indica se o campo é virtual
@@ -391,13 +391,14 @@ Return oView
     @return lRet, Logical, Retorna TRUE ou FALSE para INCLUSAO, ALTERAÇÃO e EXCLUSÃO
 /*/
 User Function GrvSZ7()
-Local aArea      := GetArea()
+Local aArea       := GetArea()
+Local lRet        := .T.
 //Capturo o modelo ativo, no caso o objeto do modelo(oModel) que está sendo manipulado em nossa aplicação
-Local oModel     := FwModelActive()
+Local oModel      := FwModelActive()
 //Criar modelo de dados MASTER/CABEÇALHO com base no model geral que foi capturado acima
 Local oModelCabec := oModel:GetModel("SZ7MASTER")
 //Criar modelo de dados DETALHE/ITENS com base no model geral que foi capturado acima
-Local oModelItem := oModel:GetModel("SZ7DETAIL")
+Local oModelItem  := oModel:GetModel("SZ7DETAIL")
 
 /* Capturo os valores que estão no CABEÇALHO, através do método GetValue
 Carrego os campos dentro das variáveis, estas variáveis serão utilizadas para
@@ -405,7 +406,7 @@ inserir o que foi digitado na tela, dentro do banco.
 */
 Local cFilSZ7  := oModelCabec:GetValue("Z7_FILIAL")
 Local cNum     := oModelCabec:GetValue("Z7_NUM")
-Local cEmissao := oModelCabec:GetValue("Z7_EMISSAO")
+Local dEmissao := oModelCabec:GetValue("Z7_EMISSAO")
 Local cFornece := oModelCabec:GetValue("Z7_FORNECE")
 Local cLoja    := oModelCabec:GetValue("Z7_LOJA")
 Local cUser    := oModelCabec:GetValue("Z7_USER")
@@ -418,17 +419,86 @@ Local aColsAux   := oModelItem:aCols  //Captura o aCols do Grid
 Lembrando que neste caso, só precisamos pegar a posição dos campos que não 
 estão no cabeçalho, somente os campos da Grid.
 */
-Local nPosItem  := aScan(aHeader, {|x| AllTrim(Upper(x[2])) == AllTrim("Z7_ITEM")})
-Local nPosProd  := aScan(aHeader, {|x| AllTrim(Upper(x[2])) == AllTrim("Z7_PRODUTO")})
-Local nPosQtd   := aScan(aHeader, {|x| AllTrim(Upper(x[2])) == AllTrim("Z7_QUANT")})
-Local nPosPrc   := aScan(aHeader, {|x| AllTrim(Upper(x[2])) == AllTrim("Z7_PRECO")})
-Local nPosTotal := aScan(aHeader, {|x| AllTrim(Upper(x[2])) == AllTrim("Z7_TOTAL")})
+Local nPosItem  := aScan(aHeaderAux,  {|x| AllTrim(Upper(x[2])) == AllTrim("Z7_ITEM")})
+Local nPosProd  := aScan(aHeaderAux,  {|x| AllTrim(Upper(x[2])) == AllTrim("Z7_PRODUTO")})
+Local nPosQtd   := aScan(aHeaderAux,  {|x| AllTrim(Upper(x[2])) == AllTrim("Z7_QUANT")})
+Local nPosPrc   := aScan(aHeaderAux,  {|x| AllTrim(Upper(x[2])) == AllTrim("Z7_PRECO")})
+Local nPosTotal := aScan(aHeaderAuxf, {|x| AllTrim(Upper(x[2])) == AllTrim("Z7_TOTAL")})
 
 //Preciso pegar a linha atual que o usuário está posicionado, para isso uma variável
 Local nLinAtu := 0
 
 //Preciso identificar qual o tipo de operaçõa que o usuário está fazendo (INCLUSÃO/ALTERAÇÃO/EXCLUSÃO)
-Local := oModelCabec:GetOperation()
+Local cOption := oModelCabec:GetOperation()
+
+/*Fazemos a seleção da nossa área que será manipulada, ou seja,
+  colocamos a tabela SZ7, em evidência juntamente com um índice de ordenação*/
+  DbSelectArea("SZ7")
+  SZ7->(DbSetOrder(1))
+
+//Se a operação que está sendo feita, for uma inserção, ele fará a inserção
+if cOption == MODEL_OPERATION_INSERT
+    for nLinAtu := 1 to Len(aColsAux) //Mede o tamanho do aCols ou seja, quantos itens exitem na Grid
+        //Porém, antes de tentar inserir, eu devo verificar, se a linha está delatada.
+        if !aColsAux[nLinAtu][Len(aHeaderAux)+1] //Expressão para verificar se uma linha está excluída no aCols(se não estiver excluída, ele prossegue)
+            //Se a linha estiver deletada, eu ainda preciso verificar se a linha deletada está inclusa ou não no sistema
+            SZ7->(DbSetOrder(2)) //Indice = Filia+Numero do Pedido + Item
+                if SZ7->(DbSeek(cFilSZ7 + cNum + aColsAux[nLinAtu,nPosItem])) // Faz a busca, se encontrar, ele deleta do banco
+                    If RecLock("SZ7",.F.)
+                        DbDelete()
+                    SZ7->(MsUnlock())
+                    EndIf
+                else /*Se a linha não estiver excluída, faço a alteração
+                       Embora seja uma alteração, eu posso ter novos itens 
+                       inclusos no meu pedido. Sendo assim, preciso validar
+                       se estes itens existem no banco de dados ou não.
+                       Caso eles não existam, eu faço uma INCLUSÃO Reclock("SZ7",.T.)*/
+                    SZ7->(DbSeek(cFilSZ7 + cNum + aColsAux[nLinAtu,nPosItem])) // Faz a busca, se encontrar, ele fará alteração
+                        RecLock("SZ7",.F.) // .T. para inclusão .F. para alteração/exclusão
+                            //Dados do Cabeçalho
+                            Z7_FILIAL  := cFilSZ7
+                            Z7_NUM     := cNum
+                            Z7_EMISSAO := dEmissao
+                            Z7_FORNECE := cFornece
+                            Z7_LOJA    := cLoja
+                            Z7_USER    := cUser
+
+                            //Dados do Grid (Itens)    
+                            Z7_ITEM    := aColsAux[nLinAtu,nPosItem] //Array aCols, posicionado na linha atual
+                            Z7_PRODUTO := aColsAux[nLinAtu,nPosProd]     
+                            Z7_QUANT   := aColsAux[nLinAtu,nPosQtd]
+                            Z7_PRECO   := aColsAux[nLinAtu,nPosPrc]
+                            Z7_TOTAL   := aColsAux[nLinAtu,nPosTotal]
+                        SZ7->(MsUnlock())
+                    EndIf
+
+
+                EndIf    
+            
+            
+            
+            
+            RecLock("SZ7",.T.) // .T. para inclusão .F. para alteração/exclusão
+                //Dados do Cabeçalho
+                Z7_FILIAL  := cFilSZ7
+                Z7_NUM     := cNum
+                Z7_EMISSAO := dEmissao
+                Z7_FORNECE := cFornece
+                Z7_LOJA    := cLoja
+                Z7_USER    := cUser
+
+                //Dados do Grid (Itens)    
+                Z7_ITEM    := aColsAux[nLinAtu,nPosItem] //Array aCols, posicionado na linha atual
+                Z7_PRODUTO := aColsAux[nLinAtu,nPosProd]     
+                Z7_QUANT   := aColsAux[nLinAtu,nPosQtd]
+                Z7_PRECO   := aColsAux[nLinAtu,nPosPrc]
+                Z7_TOTAL   := aColsAux[nLinAtu,nPosTotal]
+            SZ7->(MsUnlock())
+                        
+        endif
+    next n //Incremento de linha no For
+    
+endif
 
 RestArea(aArea)
 
