@@ -25,6 +25,8 @@ Local oBrowse  := FwmBrowse():New()
 oBrowse:SetAlias("SZ7")
 oBrowse:SetDescription("Solicitação de Compras")
 
+oBrowse:Activate()
+
 RestArea(aArea)
 
 Return 
@@ -57,11 +59,13 @@ Static Function ModelDef()
 //Objeto responsável pela Criação da estrutura temporária do cabeçalho
 Local oStCabec := FWFormModelStruct():New()
 //Objeto reponsável pela estrutura dos itens
-Local oStItens := FwFomrStruct(1,"SZ7") // 1 para Model - 2 para View
+Local oStItens := FwFormStruct(1,"SZ7") // 1 para Model - 2 para View
+
+Local bVldCom       := {|| u_Grv2SZ7()} //Chamada da User Function Commit que validará a INCLUSÃO/ALTERAÇÃO/EXCLUSÃO dos itens
 
 /*Objeto principal do desenvolvimento em MVC Modelo2,ele traz as caracterísca do 
 dicionário de dados bem como é o reponsável pela estrutura de tabelas, campos e registros*/
-Local oModel := MPFormModel():New("MVCSZ7m",/*bPre*/,/*bPos*/,/*bCommit*/,/*bCancel*/)
+Local oModel := MPFormModel():New("MVCSZ7m",/*bPre*/,/*bPos*/,bVldCom,/*bCancel*/)
 
 /*Criação da tabela temporária que será utilizada no cabeçalho*/
 
@@ -160,7 +164,7 @@ oStCabec:AddField(;
  Nil,;                                                                                     // [08] B Code-block de Validação When do campo
  {},;                                                                                      // [09] A Lista de valores permitidos no campo
  .F.,;                                                                                     // [10] L Indica se o campo tem preenchimento obrigatório
- FWBuildFeature( STRUCT_FEATURE_INIPAD, "Iif(!INCLUI,SZ7->Z7_USER,_cuserid)" ),;           // [11] B Code-block de inicialização do campo
+ FWBuildFeature( STRUCT_FEATURE_INIPAD, "Iif(!INCLUI,SZ7->Z7_USER,__cUserid)" ),;           // [11] B Code-block de inicialização do campo
  .T.,;                                                                                     // [12] L Indica se trata-se de um chave
  .F.,;                                                                                     // [13] L Indica se o campo pode receber valor de uma operação
  .F.)                                                                                      // [14] L Indica se o campo é virtual
@@ -169,7 +173,7 @@ oStCabec:AddField(;
 
 //Modificando os inicializadores padrão, para não dar mensagem de colunas vazias
 oStItens:SetProperty("Z7_NUM",     MODEL_FIELD_INIT, FWBuildFeature(STRUCT_FEATURE_INIPAD,      '"*"'))
-oStItens:SetProperty("Z7_USER",    MODEL_FIELD_INIT, FWBuildFeature(STRUCT_FEATURE_INIPAD, '_cUserId'))//Trazer o usuario automaticamente
+oStItens:SetProperty("Z7_USER",    MODEL_FIELD_INIT, FWBuildFeature(STRUCT_FEATURE_INIPAD, '__cUserId'))//Trazer o usuario automaticamente
 oStItens:SetProperty("Z7_EMISSAO", MODEL_FIELD_INIT, FWBuildFeature(STRUCT_FEATURE_INIPAD,'dDatabase'))//Trazer a data automática
 oStItens:SetProperty("Z7_FORNECE", MODEL_FIELD_INIT, FWBuildFeature(STRUCT_FEATURE_INIPAD,      '"*"'))
 oStItens:SetProperty("Z7_LOJA",    MODEL_FIELD_INIT, FWBuildFeature(STRUCT_FEATURE_INIPAD,      '"*"'))
@@ -181,8 +185,8 @@ oModel:AddFields("SZ7MASTER",,oStCabec) //Faço a vinculação com o StCabec(Cabeça
 oModel:AddGrid("SZ7DETAIL","SZ7MASTER",oStItens,,,,,)
 
 //Seto a relação entre cabeçalho e item, neste ponto, eu digo através de qual(ais) campo(s) o grid está vinculado com o cabeçalho
-aRetaions := {}
-aAdd(aRelations,{"Z7_FILIAL","'Iif(!INCLUI, SZ7->Z7_FILIAL, FWxFilial('SZ7'))'"})
+aRelations := {}
+aAdd(aRelations,{"Z7_FILIAL","Iif(!INCLUI, SZ7->Z7_FILIAL, FWxFilial('SZ7'))"})
 aAdd(aRelations,{"Z7_NUM","SZ7->Z7_NUM"})
 oModel:SetRelation("SZ7DETAIL",aRelations,SZ7->(IndexKey(1)))
 
@@ -193,7 +197,7 @@ oModel:SetRelation("SZ7DETAIL",aRelations,SZ7->(IndexKey(1)))
 
 oModel:SetPrimaryKey({})
 
-oModelGetModel("SZ7DETAIL"):SetUniqueline("Z7_ITEM")//O intuito é que este campo não se repita
+oModel:GetModel("SZ7DETAIL"):SetUniqueline({"Z7_ITEM"})//O intuito é que este campo não se repita
 
 
 //oModel:SetDescription("Modelo 2")
@@ -377,3 +381,55 @@ ser fechada após a execução do botão OK*/
 oView:SetCloseOnOk({|| .T.})
 
 Return oView
+
+/*/{Protheus.doc} User Function GrvSZ7()
+    (long_description)
+    @type  Function
+    @author Flavio Lisboa
+    @since 16/08/2021
+    @version version
+    @return lRet, Logical, Retorna TRUE ou FALSE para INCLUSAO, ALTERAÇÃO e EXCLUSÃO
+/*/
+User Function GrvSZ7()
+Local aArea      := GetArea()
+//Capturo o modelo ativo, no caso o objeto do modelo(oModel) que está sendo manipulado em nossa aplicação
+Local oModel     := FwModelActive()
+//Criar modelo de dados MASTER/CABEÇALHO com base no model geral que foi capturado acima
+Local oModelCabec := oModel:GetModel("SZ7MASTER")
+//Criar modelo de dados DETALHE/ITENS com base no model geral que foi capturado acima
+Local oModelItem := oModel:GetModel("SZ7DETAIL")
+
+/* Capturo os valores que estão no CABEÇALHO, através do método GetValue
+Carrego os campos dentro das variáveis, estas variáveis serão utilizadas para
+inserir o que foi digitado na tela, dentro do banco.
+*/
+Local cFilSZ7  := oModelCabec:GetValue("Z7_FILIAL")
+Local cNum     := oModelCabec:GetValue("Z7_NUM")
+Local cEmissao := oModelCabec:GetValue("Z7_EMISSAO")
+Local cFornece := oModelCabec:GetValue("Z7_FORNECE")
+Local cLoja    := oModelCabec:GetValue("Z7_LOJA")
+Local cUser    := oModelCabec:GetValue("Z7_USER")
+
+//Variáveis que farão a captura dos dados com base no aHeader e aCols
+Local aHeaderAux := oModelItem:aHeader //Captura o aHeader do Grid
+Local aColsAux   := oModelItem:aCols  //Captura o aCols do Grid
+
+/*Precisamos agora pegar a posição de cada campo dentro do Grid.
+Lembrando que neste caso, só precisamos pegar a posição dos campos que não 
+estão no cabeçalho, somente os campos da Grid.
+*/
+Local nPosItem  := aScan(aHeader, {|x| AllTrim(Upper(x[2])) == AllTrim("Z7_ITEM")})
+Local nPosProd  := aScan(aHeader, {|x| AllTrim(Upper(x[2])) == AllTrim("Z7_PRODUTO")})
+Local nPosQtd   := aScan(aHeader, {|x| AllTrim(Upper(x[2])) == AllTrim("Z7_QUANT")})
+Local nPosPrc   := aScan(aHeader, {|x| AllTrim(Upper(x[2])) == AllTrim("Z7_PRECO")})
+Local nPosTotal := aScan(aHeader, {|x| AllTrim(Upper(x[2])) == AllTrim("Z7_TOTAL")})
+
+//Preciso pegar a linha atual que o usuário está posicionado, para isso uma variável
+Local nLinAtu := 0
+
+//Preciso identificar qual o tipo de operaçõa que o usuário está fazendo (INCLUSÃO/ALTERAÇÃO/EXCLUSÃO)
+Local := oModelCabec:GetOperation()
+
+RestArea(aArea)
+
+Return lRet
