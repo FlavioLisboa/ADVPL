@@ -423,7 +423,7 @@ Local nPosItem  := aScan(aHeaderAux,  {|x| AllTrim(Upper(x[2])) == AllTrim("Z7_I
 Local nPosProd  := aScan(aHeaderAux,  {|x| AllTrim(Upper(x[2])) == AllTrim("Z7_PRODUTO")})
 Local nPosQtd   := aScan(aHeaderAux,  {|x| AllTrim(Upper(x[2])) == AllTrim("Z7_QUANT")})
 Local nPosPrc   := aScan(aHeaderAux,  {|x| AllTrim(Upper(x[2])) == AllTrim("Z7_PRECO")})
-Local nPosTotal := aScan(aHeaderAuxf, {|x| AllTrim(Upper(x[2])) == AllTrim("Z7_TOTAL")})
+Local nPosTotal := aScan(aHeaderAux,  {|x| AllTrim(Upper(x[2])) == AllTrim("Z7_TOTAL")})
 
 //Preciso pegar a linha atual que o usuário está posicionado, para isso uma variável
 Local nLinAtu := 0
@@ -442,43 +442,46 @@ if cOption == MODEL_OPERATION_INSERT
         //Porém, antes de tentar inserir, eu devo verificar, se a linha está delatada.
         if !aColsAux[nLinAtu][Len(aHeaderAux)+1] //Expressão para verificar se uma linha está excluída no aCols(se não estiver excluída, ele prossegue)
             //Se a linha estiver deletada, eu ainda preciso verificar se a linha deletada está inclusa ou não no sistema
-            SZ7->(DbSetOrder(2)) //Indice = Filia+Numero do Pedido + Item
-                if SZ7->(DbSeek(cFilSZ7 + cNum + aColsAux[nLinAtu,nPosItem])) // Faz a busca, se encontrar, ele deleta do banco
-                    If RecLock("SZ7",.F.)
-                        DbDelete()
-                    SZ7->(MsUnlock())
-                    EndIf
-                else /*Se a linha não estiver excluída, faço a alteração
-                       Embora seja uma alteração, eu posso ter novos itens 
-                       inclusos no meu pedido. Sendo assim, preciso validar
-                       se estes itens existem no banco de dados ou não.
-                       Caso eles não existam, eu faço uma INCLUSÃO Reclock("SZ7",.T.)*/
-                    SZ7->(DbSeek(cFilSZ7 + cNum + aColsAux[nLinAtu,nPosItem])) // Faz a busca, se encontrar, ele fará alteração
-                        RecLock("SZ7",.F.) // .T. para inclusão .F. para alteração/exclusão
-                            //Dados do Cabeçalho
-                            Z7_FILIAL  := cFilSZ7
-                            Z7_NUM     := cNum
-                            Z7_EMISSAO := dEmissao
-                            Z7_FORNECE := cFornece
-                            Z7_LOJA    := cLoja
-                            Z7_USER    := cUser
-
-                            //Dados do Grid (Itens)    
-                            Z7_ITEM    := aColsAux[nLinAtu,nPosItem] //Array aCols, posicionado na linha atual
-                            Z7_PRODUTO := aColsAux[nLinAtu,nPosProd]     
-                            Z7_QUANT   := aColsAux[nLinAtu,nPosQtd]
-                            Z7_PRECO   := aColsAux[nLinAtu,nPosPrc]
-                            Z7_TOTAL   := aColsAux[nLinAtu,nPosTotal]
-                        SZ7->(MsUnlock())
-                    EndIf
-
-
-                EndIf    
-            
-            
-            
-            
             RecLock("SZ7",.T.) // .T. para inclusão .F. para alteração/exclusão
+            //Dados do Cabeçalho
+            Z7_FILIAL  := cFilSZ7
+            Z7_NUM     := cNum
+            Z7_EMISSAO := dEmissao
+            Z7_FORNECE := cFornece
+            Z7_LOJA    := cLoja
+            Z7_USER    := cUser
+
+            //Dados do Grid (Itens)    
+            Z7_ITEM    := aColsAux[nLinAtu, nPosItem] //Array aCols, posicionado na linha atual
+            Z7_PRODUTO := aColsAux[nLinAtu, nPosProd]     
+            Z7_QUANT   := aColsAux[nLinAtu,  nPosQtd]
+            Z7_PRECO   := aColsAux[nLinAtu,  nPosPrc]
+            Z7_TOTAL   := aColsAux[nLinAtu,nPosTotal]
+            SZ7->(MsUnlock())
+        EndIf
+    NEXT n
+
+elseif cOption == MODEL_OPERATION_UPDATE
+    for nLinAtu := 1 to Len(aColsAux) //Mede o tamanho do aCols ou seja, quantos itens exitem na Grid
+        //Porém, antes de tentar inserir, eu devo verificar, se a linha está delatada.
+        if aColsAux[nLinAtu][Len(aHeaderAux)+1] //Expressão para verificar se uma linha está excluída no aCols(se não estiver excluída, ele prossegue)
+            //Se a linha estiver deletada, eu ainda preciso verificar se a linha deletada está inclusa ou não no sistema
+            SZ7->(DbSetOrder(2)) //ÍNDICE FILIAL+NUMEROPEDIDO+ITEM
+            if SZ7->(DbSeek(cFilSZ7+cNum+aColsAux[nLinAtu,nPosItem]))//Faz a busca, se encontrar, ele deve deletar do banco
+                  RecLock('SZ7',.F.)
+                  DbDelete()
+               SZ7->(MsUnlock())
+            EndIf
+        
+         /*Se a linha não estiver excluída, faço a alteração
+         Embora seja uma alteração, eu posso ter novos itens incluidos no meu pedido.
+         Sendo assim, preciso validar se estes itens existem no banco de dados ou não.
+         Caso eles não existam, eu faço uma inclusão Reclock("SZ7",.T.)   
+         */   
+    else // 
+        SZ7->(DbSetOrder(2)) //ÍNDICE FILIAL+NUMEROPEDIDO+ITEM
+            if SZ7->(DbSeek(cFilSZ7+cNum+aColsAux[nLinAtu,nPosItem]))//Faz a busca, se encontrar, ele fará uma alteração
+                RecLock('SZ7',.F.)
                 //Dados do Cabeçalho
                 Z7_FILIAL  := cFilSZ7
                 Z7_NUM     := cNum
@@ -488,17 +491,63 @@ if cOption == MODEL_OPERATION_INSERT
                 Z7_USER    := cUser
 
                 //Dados do Grid (Itens)    
-                Z7_ITEM    := aColsAux[nLinAtu,nPosItem] //Array aCols, posicionado na linha atual
-                Z7_PRODUTO := aColsAux[nLinAtu,nPosProd]     
-                Z7_QUANT   := aColsAux[nLinAtu,nPosQtd]
-                Z7_PRECO   := aColsAux[nLinAtu,nPosPrc]
+                Z7_ITEM    := aColsAux[nLinAtu, nPosItem] //Array aCols, posicionado na linha atual
+                Z7_PRODUTO := aColsAux[nLinAtu, nPosProd]     
+                Z7_QUANT   := aColsAux[nLinAtu,  nPosQtd]
+                Z7_PRECO   := aColsAux[nLinAtu,  nPosPrc]
                 Z7_TOTAL   := aColsAux[nLinAtu,nPosTotal]
             SZ7->(MsUnlock())
-                        
+    else  //Se ele não achar, é porque o item não existe ainda no banco, logo irá incluir   
+                RecLock('SZ7',.T.)
+                //Dados do Cabeçalho
+                Z7_FILIAL  := cFilSZ7
+                Z7_NUM     := cNum
+                Z7_EMISSAO := dEmissao
+                Z7_FORNECE := cFornece
+                Z7_LOJA    := cLoja
+                Z7_USER    := cUser
+
+                //Dados do Grid (Itens)    
+                Z7_ITEM    := aColsAux[nLinAtu, nPosItem] //Array aCols, posicionado na linha atual
+                Z7_PRODUTO := aColsAux[nLinAtu, nPosProd]     
+                Z7_QUANT   := aColsAux[nLinAtu,  nPosQtd]
+                Z7_PRECO   := aColsAux[nLinAtu,  nPosPrc]
+                Z7_TOTAL   := aColsAux[nLinAtu,nPosTotal]
+            SZ7->(MsUnlock())
+            endif
         endif
-    next n //Incremento de linha no For
-    
-endif
+
+    NEXT n
+
+ELSEIF cOption == MODEL_OPERATION_DELETE
+    SZ7->(DbSetOrder(1)) //FILIAL + NUMEROPEDIDO    
+        /* Ele vai percorrer todo arquivo, e enquanto a filial for igual a do pedido e o número
+        do pedido for igual ao número que está posicionado para excluir(pedido que você quer excluir)
+        ele fará a DELEÇÃO/EXCLUSÃO dos registros    
+        */
+
+    while !SZ7->(EOF()) .AND. SZ7->Z7_FILIAL = cFilSZ7 .AND. SZ7->Z7_NUM = cNum
+          RecLock('SZ7',.F.)
+                DbDelete()
+           SZ7->(MsUnlock())
+
+        SZ7->(DbSkip())
+        
+      ENDDO
+ 
+/* OUTRA FORMA DE EXCLUSÃO COM BASE NO QUE ESTÁ NO GRID.
+    SZ7->(dbSetOrder(2))
+    For nLinAtu := 1 to Len(aColsAux)
+        //Regrinha para verificar se a linha estÃ¡ excluÃ­da, se nÃ£o tiver irÃ¡ incluir
+        IF SZ7->(DbSeek(cFilSZ7+cNum+aColsAux[nLinAtu][nPosItem]))
+            RECLOCK("SZ7",.F.)
+                DbDelete()
+            SZ7->(MsUnlock())
+        Endif
+    Next nLinAtu
+*/	
+
+ENDIF
 
 RestArea(aArea)
 
