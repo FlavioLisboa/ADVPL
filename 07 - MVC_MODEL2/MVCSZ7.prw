@@ -79,101 +79,101 @@ oStCabec:AddTable("SZ7",{"Z7_FILIAL","Z7_NUM","Z7_ITEM"},"Cabeçalho SZ7")
 
 //Criação dos campos da tabela temporária
 oStCabec:AddField(;
- "Filial",;                                                                                     // [01] C Títulos do Campo
- "Filial",;                                                                                     // [02] C ToolTip do Campo
- "Z7_FILIAL",;                                                                                  // [03] C Id do Field
- "C",;                                                                                          // [04] C Tipo do Campo
- TamSX3("Z7_FILIAL")[1],;                                                                       // [05] N Tamanho do Campo
- 0,;                                                                                            // [06] N Decimal do Campo
- Nil,;                                                                                          // [07] B Code-block de Validação do campo  
- Nil,;                                                                                          // [08] B Code-block de Validação When do campo
- {},;                                                                                           // [09] A Lista de valores permitidos no campo
- .F.,;                                                                                          // [10] L Indica se o campo tem preenchimento obrigatório
- FWBuildFeature( STRUCT_FEATURE_INIPAD, "Iif(!INCLUI,SZ7->Z7_FILIAL,FWxFilial('SZ7'))"),;       // [11] B Code-block de inicialização do campo
- .T.,;                                                                                          // [12] L Indica se trata-se de um chave
- .F.,;                                                                                          // [13] L Indica se o campo pode receber valor de uma operação
- .F.)                                                                                           // [14] L Indica se o campo é virtual
+    "Filial",;                                                                                     // [01] C Títulos do Campo
+    "Filial",;                                                                                     // [02] C ToolTip do Campo
+    "Z7_FILIAL",;                                                                                  // [03] C Id do Field
+    "C",;                                                                                          // [04] C Tipo do Campo
+    TamSX3("Z7_FILIAL")[1],;                                                                       // [05] N Tamanho do Campo
+    0,;                                                                                            // [06] N Decimal do Campo
+    Nil,;                                                                                          // [07] B Code-block de Validação do campo  
+    Nil,;                                                                                          // [08] B Code-block de Validação When do campo
+    {},;                                                                                           // [09] A Lista de valores permitidos no campo
+    .F.,;                                                                                          // [10] L Indica se o campo tem preenchimento obrigatório
+    FWBuildFeature( STRUCT_FEATURE_INIPAD, "Iif(!INCLUI,SZ7->Z7_FILIAL,FWxFilial('SZ7'))"),;       // [11] B Code-block de inicialização do campo
+    .T.,;                                                                                          // [12] L Indica se trata-se de um chave
+    .F.,;                                                                                          // [13] L Indica se o campo pode receber valor de uma operação
+    .F.)                                                                                           // [14] L Indica se o campo é virtual
 
 oStCabec:AddField(;
-"Numero",;                                                                                      // [01] C Títulos do Campo
-"Numero",;                                                                                      // [02] C ToolTip do Campo
-"Z7_NUM",;                                                                                      // [03] C Id do Field
-"C",;                                                                                           // [04] C Tipo do Campo
-TamSX3("Z7_NUM")[1],;                                                                           // [05] N Tamanho do Campo
-0,;                                                                                             // [06] N Decimal do Campo
-Nil,;                                                                                           // [07] B Code-block de Validação do campo  
-Nil,;                                                                                           // [08] B Code-block de Validação When do campo
-{},;                                                                                            // [09] A Lista de valores permitidos no campo
-.F.,;                                                                                           // [10] L Indica se o campo tem preenchimento obrigatório
-FWBuildFeature( STRUCT_FEATURE_INIPAD, 'Iif(!INCLUI,SZ7->Z7_NUM,GetSXENum("SZ7","Z7_NUM"))'),;  // [11] B Code-block de inicialização do campo
-.T.,;                                                                                           // [12] L Indica se trata-se de um chave
-.F.,;                                                                                           // [13] L Indica se o campo pode receber valor de uma operação
-.F.)                                                                                            // [14] L Indica se o campo é virtual
+    "Numero",;                                                                                      // [01] C Títulos do Campo
+    "Numero",;                                                                                      // [02] C ToolTip do Campo
+    "Z7_NUM",;                                                                                      // [03] C Id do Field
+    "C",;                                                                                           // [04] C Tipo do Campo
+    TamSX3("Z7_NUM")[1],;                                                                           // [05] N Tamanho do Campo
+    0,;                                                                                             // [06] N Decimal do Campo
+    Nil,;                                                                                           // [07] B Code-block de Validação do campo  
+    Nil,;                                                                                           // [08] B Code-block de Validação When do campo
+    {},;                                                                                            // [09] A Lista de valores permitidos no campo
+    .F.,;                                                                                           // [10] L Indica se o campo tem preenchimento obrigatório
+    FWBuildFeature( STRUCT_FEATURE_INIPAD, 'Iif(!INCLUI,SZ7->Z7_NUM,GetSXENum("SZ7","Z7_NUM"))'),;  // [11] B Code-block de inicialização do campo
+    .T.,;                                                                                           // [12] L Indica se trata-se de um chave
+    .F.,;                                                                                           // [13] L Indica se o campo pode receber valor de uma operação
+    .F.)                                                                                            // [14] L Indica se o campo é virtual
 
 oStCabec:AddField(;
- "Emissao",;                                                                                    // [01] C Títulos do Campo
- "Emissao",;                                                                                    // [02] C ToolTip do Campo
- "Z7_EMISSAO",;                                                                                 // [03] C Id do Field
- "D",;                                                                                          // [04] C Tipo do Campo
- TamSX3("Z7_EMISSAO")[1],;                                                                      // [05] N Tamanho do Campo
- 0,;                                                                                            // [06] N Decimal do Campo
- Nil,;                                                                                          // [07] B Code-block de Validação do campo  
- Nil,;                                                                                          // [08] B Code-block de Validação When do campo
- {},;                                                                                           // [09] A Lista de valores permitidos no campo
- .F.,;                                                                                          // [10] L Indica se o campo tem preenchimento obrigatório
- FWBuildFeature( STRUCT_FEATURE_INIPAD, "Iif(!INCLUI,SZ7->Z7_EMISSAO,dDataBase)"),;             // [11] B Code-block de inicialização do campo
- .T.,;                                                                                          // [12] L Indica se trata-se de um chave
- .F.,;                                                                                          // [13] L Indica se o campo pode receber valor de uma operação
- .F.)                                                                                           // [14] L Indica se o campo é virtual
+    "Emissao",;                                                                                    // [01] C Títulos do Campo
+    "Emissao",;                                                                                    // [02] C ToolTip do Campo
+    "Z7_EMISSAO",;                                                                                 // [03] C Id do Field
+    "D",;                                                                                          // [04] C Tipo do Campo
+    TamSX3("Z7_EMISSAO")[1],;                                                                      // [05] N Tamanho do Campo
+    0,;                                                                                            // [06] N Decimal do Campo
+    Nil,;                                                                                          // [07] B Code-block de Validação do campo  
+    Nil,;                                                                                          // [08] B Code-block de Validação When do campo
+    {},;                                                                                           // [09] A Lista de valores permitidos no campo
+    .F.,;                                                                                          // [10] L Indica se o campo tem preenchimento obrigatório
+    FWBuildFeature( STRUCT_FEATURE_INIPAD, "Iif(!INCLUI,SZ7->Z7_EMISSAO,dDataBase)"),;             // [11] B Code-block de inicialização do campo
+    .T.,;                                                                                          // [12] L Indica se trata-se de um chave
+    .F.,;                                                                                          // [13] L Indica se o campo pode receber valor de uma operação
+    .F.)                                                                                           // [14] L Indica se o campo é virtual
 
 oStCabec:AddField(;
- "Fornecedor",;                                                                                 // [01] C Títulos do Campo
- "Fornecedor",;                                                                                 // [02] C ToolTip do Campo
- "Z7_FORNECE",;                                                                                 // [03] C Id do Field
- "C",;                                                                                          // [04] C Tipo do Campo
- TamSX3("Z7_FORNECE")[1],;                                                                      // [05] N Tamanho do Campo
- 0,;                                                                                            // [06] N Decimal do Campo
- Nil,;                                                                                          // [07] B Code-block de Validação do campo  
- Nil,;                                                                                          // [08] B Code-block de Validação When do campo
- {},;                                                                                           // [09] A Lista de valores permitidos no campo
- .F.,;                                                                                          // [10] L Indica se o campo tem preenchimento obrigatório
- FWBuildFeature( STRUCT_FEATURE_INIPAD, "Iif(!INCLUI,SZ7->Z7_FORNECE,'')"),;                    // [11] B Code-block de inicialização do campo
- .T.,;                                                                                          // [12] L Indica se trata-se de um chave
- .F.,;                                                                                          // [13] L Indica se o campo pode receber valor de uma operação
- .F.)                                                                                           // [14] L Indica se o campo é virtual
+    "Fornecedor",;                                                                                 // [01] C Títulos do Campo
+    "Fornecedor",;                                                                                 // [02] C ToolTip do Campo
+    "Z7_FORNECE",;                                                                                 // [03] C Id do Field
+    "C",;                                                                                          // [04] C Tipo do Campo
+    TamSX3("Z7_FORNECE")[1],;                                                                      // [05] N Tamanho do Campo
+    0,;                                                                                            // [06] N Decimal do Campo
+    Nil,;                                                                                          // [07] B Code-block de Validação do campo  
+    Nil,;                                                                                          // [08] B Code-block de Validação When do campo
+    {},;                                                                                           // [09] A Lista de valores permitidos no campo
+    .F.,;                                                                                          // [10] L Indica se o campo tem preenchimento obrigatório
+    FWBuildFeature( STRUCT_FEATURE_INIPAD, "Iif(!INCLUI,SZ7->Z7_FORNECE,'')"),;                    // [11] B Code-block de inicialização do campo
+    .T.,;                                                                                          // [12] L Indica se trata-se de um chave
+    .F.,;                                                                                          // [13] L Indica se o campo pode receber valor de uma operação
+    .F.)                                                                                           // [14] L Indica se o campo é virtual
 
 oStCabec:AddField(;
- "Loja",;                                                                                       // [01] C Títulos do Campo
- "Loja",;                                                                                       // [02] C ToolTip do Campo
- "Z7_LOJA",;                                                                                    // [03] C Id do Field
- "C",;                                                                                          // [04] C Tipo do Campo
- TamSX3("Z7_LOJA")[1],;                                                                         // [05] N Tamanho do Campo
- 0,;                                                                                            // [06] N Decimal do Campo
- Nil,;                                                                                          // [07] B Code-block de Validação do campo  
- Nil,;                                                                                          // [08] B Code-block de Validação When do campo
- {},;                                                                                           // [09] A Lista de valores permitidos no campo
- .F.,;                                                                                          // [10] L Indica se o campo tem preenchimento obrigatório
- FWBuildFeature( STRUCT_FEATURE_INIPAD, "Iif(!INCLUI,SZ7->Z7_LOJA,'')"),;                       // [11] B Code-block de inicialização do campo
- .T.,;                                                                                          // [12] L Indica se trata-se de um chave
- .F.,;                                                                                          // [13] L Indica se o campo pode receber valor de uma operação
- .F.)                                                                                           // [14] L Indica se o campo é virtual
+    "Loja",;                                                                                       // [01] C Títulos do Campo
+    "Loja",;                                                                                       // [02] C ToolTip do Campo
+    "Z7_LOJA",;                                                                                    // [03] C Id do Field
+    "C",;                                                                                          // [04] C Tipo do Campo
+    TamSX3("Z7_LOJA")[1],;                                                                         // [05] N Tamanho do Campo
+    0,;                                                                                            // [06] N Decimal do Campo
+    Nil,;                                                                                          // [07] B Code-block de Validação do campo  
+    Nil,;                                                                                          // [08] B Code-block de Validação When do campo
+    {},;                                                                                           // [09] A Lista de valores permitidos no campo
+    .F.,;                                                                                          // [10] L Indica se o campo tem preenchimento obrigatório
+    FWBuildFeature( STRUCT_FEATURE_INIPAD, "Iif(!INCLUI,SZ7->Z7_LOJA,'')"),;                       // [11] B Code-block de inicialização do campo
+    .T.,;                                                                                          // [12] L Indica se trata-se de um chave
+    .F.,;                                                                                          // [13] L Indica se o campo pode receber valor de uma operação
+    .F.)                                                                                           // [14] L Indica se o campo é virtual
 
 
 oStCabec:AddField(;
- "Usuario",;                                                                                    // [01] C Títulos do Campo
- "Usuario",;                                                                                    // [02] C ToolTip do Campo
- "Z7_USER",;                                                                                    // [03] C Id do Field
- "C",;                                                                                          // [04] C Tipo do Campo
- TamSX3("Z7_USER")[1],;                                                                         // [05] N Tamanho do Campo
- 0,;                                                                                            // [06] N Decima do Campo
- Nil,;                                                                                          // [07] B Code-block de Validação do campo  
- Nil,;                                                                                          // [08] B Code-block de Validação When do campo
- {},;                                                                                           // [09] A Lista de valores permitidos no campo
- .F.,;                                                                                          // [10] L Indica se o campo tem preenchimento obrigatório
- FWBuildFeature( STRUCT_FEATURE_INIPAD, "Iif(!INCLUI,SZ7->Z7_USER,__cUserid)" ),;               // [11] B Code-block de inicialização do campo
- .T.,;                                                                                          // [12] L Indica se trata-se de um chave
- .F.,;                                                                                          // [13] L Indica se o campo pode receber valor de uma operação
- .F.)                                                                                           // [14] L Indica se o campo é virtual
+    "Usuario",;                                                                                    // [01] C Títulos do Campo
+    "Usuario",;                                                                                    // [02] C ToolTip do Campo
+    "Z7_USER",;                                                                                    // [03] C Id do Field
+    "C",;                                                                                          // [04] C Tipo do Campo
+    TamSX3("Z7_USER")[1],;                                                                         // [05] N Tamanho do Campo
+    0,;                                                                                            // [06] N Decima do Campo
+    Nil,;                                                                                          // [07] B Code-block de Validação do campo  
+    Nil,;                                                                                          // [08] B Code-block de Validação When do campo
+    {},;                                                                                           // [09] A Lista de valores permitidos no campo
+    .F.,;                                                                                          // [10] L Indica se o campo tem preenchimento obrigatório
+    FWBuildFeature( STRUCT_FEATURE_INIPAD, "Iif(!INCLUI,SZ7->Z7_USER,__cUserid)" ),;               // [11] B Code-block de inicialização do campo
+    .T.,;                                                                                          // [12] L Indica se trata-se de um chave
+    .F.,;                                                                                          // [13] L Indica se o campo pode receber valor de uma operação
+    .F.)                                                                                           // [14] L Indica se o campo é virtual
 
 //Agora vamos tratar a estrutura dos Itens, que serão utilizados no Grid da aplicação
 
@@ -422,6 +422,7 @@ oView:CreateHorizontalBox("TOTAL",30)
 
 /*Abaixo, digo para onde vai cada View criada, VIEW_SZ7M irá para a cabec, VIEW_SZ7D irá para GRID... 
 Sendo assim, eu associo o View à cada Box criado*/
+
 oView:SetOwnerView("VIEW_SZ7M","CABEC")
 oView:SetOwnerView("VIEW_SZ7D","GRID")
 oView:SetOwnerView("VIEW_SZ7T","TOTAL")
