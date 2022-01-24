@@ -1,25 +1,9 @@
 #include 'Protheus.ch'
 #include 'FwMvcDef.ch'
 
-/*/{Protheus.doc} User Function CHMD01
-    Função principal para a construção da tela em MVC modelo 3 para um sistema de chamado simples
-    , como base na proposta fictícia do treinamento da Sistematizei
-    @Coment: A grande difereça das estruturas de dados do modelo 2 para o modelo 3, é que no modelo 2
-    a estrutura de dados do cabeçalho é temporária/virtual/fica na memória, já no modelo 3/X
-    todas as estruturas de dados, tendem à ser Reais, ou seja, importamos via FwFormStruct, a(s) tabela(s)
-    Propriamente ditas.
-    @type  User Function
-    @author Flávio Lisboa
-    @since 21/01/2022
-    @version version
-    @see (https://tdn.totvs.com/display/framework/FWFormModelStruct)
-    @see (https://tdn.totvs.com/display/framework/FWFormStruct)
-    @see (https://tdn.totvs.com/display/framework/MPFormModel)   
-    @see (https://tdn.totvs.com/display/framework/FWBuildFeature)
-    @see (https://tdn.totvs.com/display/framework/FWFormGridModel)
-    /*/
-User Function CHMD01()
-Local oBrowse := FwLoadBrw("CHMD01")//Digo o fonte que eu estou buscando o BrowserDef
+
+User Function MVCVLD()
+Local oBrowse := FwLoadBrw("MVCVLD")//Digo o fonte que eu estou buscando o BrowserDef
 
 oBrowse:Activate()
 
@@ -49,7 +33,7 @@ oBrowse:AddLegend("SZ2->Z2_STATUS == '2'","RED"    ,"Chamado Finalizado")
 oBrowse:AddLegend("SZ2->Z2_STATUS == '3'","YELLOW" ,"Chamado em Andamento")
 
 //Deve definir de onde virá o MenuDef devo chamar o meu menu
-oBrowse:SetMenudef("CHMD01")//Coloco o fonte de onde virá o menu
+oBrowse:SetMenudef("MVCVLD")//Coloco o fonte de onde virá o menu
 
 RestArea(aArea)
 
@@ -58,11 +42,11 @@ Return oBrowse
 Static Function MenuDef()
 
 Local aMenu    := {}
-Local aMenuAut := FwMvcMenu("CHMD01")
-Local nNumber  := Nil
+Local aMenuAut := FwMvcMenu("MVCVLD")
+Local nNumber  := NIL
 
-ADD OPTION aMenu TITLE 'Legenda' ACTION 'u_SZ2LEG'     OPERATION 6 ACCESS 0
-ADD OPTION aMenu TITLE 'Sobre'   ACTION  'u_SZ2SOBRE'  OPERATION 6 ACCESS 0
+ADD OPTION aMenu TITLE 'Legenda' ACTION 'u_VLDLEG'     OPERATION 6 ACCESS 0
+ADD OPTION aMenu TITLE 'Sobre'   ACTION  'u_VLDSOBRE'  OPERATION 6 ACCESS 0
 
 /*Utilizo um laço de repetição para adicionar à variável aMenu
 o que eu criei automaticamente para a variável aMenuAut*/
@@ -88,7 +72,7 @@ Return aMenu
 Static Function ModelDef()
 
 //Declaro o meu modelo de dados sem passar blocos de validação, pois usaremos a validação padrão em MVC
-Local oModel := MPFormModel():New("CHMD01M",/*bPre*/,/*bPos*/,/*bCommit*/,/*bCancel*/)
+Local oModel     := MPFormModel():New("MVCVLDM",/*bPre*/,/*bPos*/,/*bCommit*/,/*bCancel*/)
 //Crio as estrutura das tabelas PAI(SZ2) e FILHO(SZ3)
 Local oStPaiZ2   := FwFormStruct(1,"SZ2")
 Local oStFilhoZ3 := FWFormStruct(1,"SZ3")
@@ -97,6 +81,9 @@ oStFilhoZ3:SetProperty("Z3_CHAMADO",MODEL_FIELD_INIT,FWBuildFeature(STRUCT_FEATU
 
 oModel:AddFields("SZ2MASTER",,oStPaiZ2)
 oModel:AddGrid("SZ3DETAIL","SZ2MASTER",oStFilhoZ3,,,,,)
+
+//Chamo o método SetVldActivate e passo o parâmetro o bloco de código com a minha Static Function
+oModel:SetVldActivate({|oModel| MActivVLD(oModel)})
 
 oModel:SetRelation("SZ3DETAIL",{{"Z3_FILIAL","xFILIAL('SZ2')"},{"Z3_CHAMADO","Z2_COD"}},SZ3->(IndexKey(1)))
 
@@ -119,7 +106,7 @@ Return oModel
 Static Function ViewDef()
 
 Local oView      := Nil
-Local oModel     := FwLoadModel("CHMD01")
+Local oModel     := FwLoadModel("MVCVLD")
 Local oStPaiZ2   := FwFormStruct(2,"SZ2")
 Local oStFilhoZ3 := FwFormStruct(2,"SZ3")
 
@@ -150,7 +137,7 @@ oView:EnableTitleView("VIEWSZ3","Comentários do chamado/Itens")
 Return oView
 
 
-User Function SZ2LEG()
+User Function VLDLEG()
 
 Local aLegenda := {}
 
@@ -163,7 +150,7 @@ BrwLegend("Status dos Chamados",,aLegenda)
 Return aLegenda
 
 
-User Function SZ2SOBRE()
+User Function VLDSOBRE()
 
 Local cSobre
 
@@ -173,3 +160,34 @@ cSobre := "-<b>Minha primeira tela em MVC Modelo 3<br>"+;
 MsgInfo(cSobre, "Sobre o Programador...")
 
 Return 
+
+/*/{Protheus.doc} MACTIVLVD
+    (Esta função fará a validação se o usuário está apto a entrar na rotina ou não
+    Se ele não estiver dentro do parâmentro MV_XUSMVC, ele não poderá por exemplo... Incluir ou Alterar.)
+    @type  Static Function
+    @author Flávio Lisboa
+    @since 24/01/2022
+    @version version
+    @param oModel, Object, 
+    @return lRet, Logical, 
+    @example
+    (examples)
+    @see (links_or_references)
+/*/
+Static Function MActivVLD(oModel)
+
+Local lRet     := .T.
+Local cUserMVC := SUPERGETMVC("MV_XUSMVC")
+Local cCodUser := RetCodUsr()
+
+If !(cCodUser$cUserMVC)
+    lRet := .F.
+
+    Help(NIL, NIL, "MActivVLD",NIL, "Usuário não autorizado",;
+    1,0,NIL,NIL,NIL,NIL,NIL,{"Este usuário não está autorizado à realizar está operação, vide parâmentro MV_XUSMVC"})
+
+ENDIF
+
+
+    
+Return lRet
