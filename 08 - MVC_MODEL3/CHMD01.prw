@@ -88,7 +88,7 @@ Return aMenu
 Static Function ModelDef()
 
 //Declaro o meu modelo de dados sem passar blocos de validação, pois usaremos a validação padrão em MVC
-Local oModel := MPFormModel():New("CHMD01M",/*bPre*/,/*bPos*/,/*bCommit*/,/*bCancel*/)
+Local oModel := MPFormModel():New("CHMD01M",/*bPre{|oModel| MPreVld(oModel)}*/,{|oModel| MPosVld(oModel)},{|oModel| MComVld(oModel)},{|oModel| MCancVld(oModel)})
 //Crio as estrutura das tabelas PAI(SZ2) e FILHO(SZ3)
 Local oStPaiZ2   := FwFormStruct(1,"SZ2")
 Local oStFilhoZ3 := FWFormStruct(1,"SZ3")
@@ -173,3 +173,63 @@ cSobre := "-<b>Minha primeira tela em MVC Modelo 3<br>"+;
 MsgInfo(cSobre, "Sobre o Programador...")
 
 Return 
+
+
+/*Static Function MPreVld(oModel)
+
+Local lRet := .T.  
+
+MsgAlert("Você está passandro por uma validação", "validação")
+
+if oModel:GetValue("SZ2MASTER","Z2_DATA") > dDatabase
+      Help(NIL, NIL, "MPreVld",NIL, "Prevalidação",;
+      1,0,NIL,NIL,NIL,NIL,NIL,{"Data maior que a data base, coloque a data igual ou anterio"})
+      lRet := .F.
+    
+endif
+
+
+Return lRet
+/*/
+
+
+Static Function MPosVld(oModel)
+    
+Local lRet         := .T.
+Local cTitChamado  := oModel:GetValue("SZ2MASTER","Z2_TITCHAM")
+Local nLen         := Len(AllTrim(cTitChamado))
+
+If nLen < 15
+     lRet := .F.
+     Help(NIL, NIL, "MPosVld",NIL, "POSVALIDATION",;
+     1,0,NIL,NIL,NIL,NIL,NIL,{"O Título do Chamado deve conter no mínimo 15 caracteres"})
+endif
+
+
+Return lRet
+
+
+Static Function MComVld(oModel)
+    
+Local lRet := .T.
+
+Alert("Você está passando pela validação do COMMIT")
+
+FwFormCommit(oModel)
+
+
+Return lRet
+
+
+Static Function MCancVld(oModel)
+    
+Local lRet := .T.
+
+If !(MsgYesNo("Deseja fechar a janela?", "CANCELAR"))
+     Help(NIL, NIL, "MCancVld",NIL, "CANCEL",;
+     1,0,NIL,NIL,NIL,NIL,NIL,{"Saída/Cancelamento abortado pelo usuário"})
+     lRet  := .F.
+endif
+
+
+Return lRet

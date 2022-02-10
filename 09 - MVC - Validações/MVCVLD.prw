@@ -79,6 +79,20 @@ Local oStFilhoZ3 := FWFormStruct(1,"SZ3")
 
 oStFilhoZ3:SetProperty("Z3_CHAMADO",MODEL_FIELD_INIT,FWBuildFeature(STRUCT_FEATURE_INIPAD, "SZ2->Z2_COD"))
 
+aTrigUser := FwStruTrigger(;
+"Z2_USUARIO",;
+"Z2_USERNAM",;
+"USRRETNAME(M->Z2_USUARIO)",;
+.F.)
+
+oStPaiZ2:AddTrigger(;
+aTrigUser[1],;
+aTrigUser[2],;
+aTrigUser[3],;
+aTrigUser[4])
+
+
+
 oModel:AddFields("SZ2MASTER",,oStPaiZ2)
 oModel:AddGrid("SZ3DETAIL","SZ2MASTER",oStFilhoZ3,,,,,)
 
@@ -112,6 +126,9 @@ Local oStFilhoZ3 := FwFormStruct(2,"SZ3")
 
 oStFilhoZ3:RemoveField("Z3_CHAMADO")
 oStFilhoZ3:SetProperty("Z3_CODIGO", MVC_VIEW_CANCHANGE, .F.)
+
+oStPaiZ2:SetProperty("Z2_USUARIO", MVC_VIEW_LOOKUP, "USR")
+
 
 oView := FwFormView():New()
 
